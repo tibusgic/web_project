@@ -40,9 +40,14 @@
   
 </section>
 
-- [x] #739
-- [ ] https://github.com/octo-org/octo-repo/issues/740
-- [ ] Add delight to the experience when all tasks are complete :tada:
+- [ ] index.html qui inclut système.js
+- [ ] système.js qui est l'interface three.js globale du projet
+- [ ] fichiers .js de chaque planète
+- [ ] dossier texture
+- [ ] position.js qui recup les xyz des planete via kepler.js
+- [ ] fichiers .js des lunes
+- [ ] fichiers .js des ceintures d'astéroides
+- [ ] fichiers .js d'autres éléments (si on a le temps)
 
 <section>
   <h2>Référence d’inspiration</h2>
