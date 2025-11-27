@@ -37,6 +37,15 @@
 </section>
 
 <section>
+  <h2>Tâches à faire</h2>
+  <ul>
+    - [x] #739
+    - [ ] https://github.com/octo-org/octo-repo/issues/740
+    - [ ] Add delight to the experience when all tasks are complete :tada:
+  </ul>
+</section>
+
+<section>
   <h2>Référence d’inspiration</h2>
   <p>
     Le projet s’inspire du site de la NASA :<br>
