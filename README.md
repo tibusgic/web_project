@@ -35,7 +35,7 @@
     <li>Interface claire et ergonomique.</li>
   </ul>
 </section>
-  <h2>Liste des tâches</h2>
+  <h2>Tâches principales</h2>
 <section>
   
 </section>
@@ -44,10 +44,17 @@
 - [ ] système.js qui est l'interface three.js globale du projet
 - [ ] fichiers .js de chaque planète
 - [ ] dossier texture
+- [ ] fiche d'intentification des planètes
 - [ ] position.js qui recup les xyz des planete via kepler.js
+
+</section>
+  <h2>Tâches secondaires</h2>
+<section>
+  
 - [ ] fichiers .js des lunes
 - [ ] fichiers .js des ceintures d'astéroides
-- [ ] fichiers .js d'autres éléments (si on a le temps)
+- [ ] fichiers .js d'autres éléments
+- [ ] déplacement sur la terre avec informations des pays
 
 <section>
   <h2>Référence d’inspiration</h2>
