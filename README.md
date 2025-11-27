@@ -14,7 +14,7 @@
 </section>
 
 <section>
-  <h2>Objectif du projet</h2>
+  <h2>Objectif du projet :</h2>
   <p>
     L’objectif de ce projet est de concevoir une <strong>interface 3D interactive</strong> permettant la 
     <strong>visualisation du système solaire</strong> avec ses planètes, leurs orbites et diverses informations associées.
