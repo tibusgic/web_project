@@ -10,7 +10,7 @@ const camera = new THREE.PerspectiveCamera(70, WIDTH / HEIGHT);
 camera.position.z = 50;
 scene.add(camera);
 
-
+/*
 const boxGeometry = new THREE.BoxGeometry(10, 10, 10);
 const basicMaterial = new THREE.MeshBasicMaterial({ color: 0x0095dd });
 const cube = new THREE.Mesh(boxGeometry, basicMaterial);
@@ -23,6 +23,15 @@ sphere.position.set(15, 0, 0);
 scene.add(sphere);
 
 cube.rotation.set(0.4, 0.2, 0);
+*/
+filePath = path.join(__dirname, 'earth.json');
+let planete = JSON.parse(fs.readFileSync(filePath));
+
+console.log(planete.name);
+console.log(planete.gravity);
+console.log(planete.masse);
+console.log(planete.radius);
+console.log(planete.orbit);
 
 
 function render() {
