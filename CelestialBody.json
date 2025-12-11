@@ -1,0 +1,18 @@
+{
+  "name": "Earth",
+  "type": "planet",
+  "texture": "./assets/textures/earth.jpg",
+  
+  "visual": {
+    "radius": 1.0  
+  },
+
+  "orbit": {
+    "semimajorAxis": 149.6,
+    "eccentricity": 0.0167,
+    "inclination": 0.00005,
+    "longitudeOfAscendingNode": -11.26,
+    "argumentOfPeriapsis": 114.20,
+    "meanAnomaly0": 0
+  }
+}
