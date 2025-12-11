@@ -6,7 +6,7 @@ export const genrateStar = (size, starTexturePath) => {
   const starTexture = starTextureLoader.load(starTexturePath);
   const starMaterial = new THREE.MeshStandardMaterial({
     map: starTexture,
-    emissive: 0xffff00,  // Fait briller l'étoile
+    emissive: 0xff0000,  // Fait briller l'étoile
     emissiveIntensity: 0.5
   });
 
