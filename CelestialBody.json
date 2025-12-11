@@ -1,18 +1,66 @@
-{
-  "name": "Earth",
-  "type": "planet",
-  "texture": "./assets/textures/earth.jpg",
-  
-  "visual": {
-    "radius": 1.0  
+[
+  {
+    "name": "Mercury",
+    "type": "planet",
+    "texture": "./assets/textures/mercury.jpg",
+    "visual": {
+      "radius": 0.38
+    },
+    "orbit": {
+      "semimajorAxis": 57.9,
+      "eccentricity": 0.2056,
+      "inclination": 7.00,
+      "longitudeOfAscendingNode": 48.33,
+      "argumentOfPeriapsis": 29.12,
+      "meanAnomaly0": 174.79
+    }
   },
-
-  "orbit": {
-    "semimajorAxis": 149.6,
-    "eccentricity": 0.0167,
-    "inclination": 0.00005,
-    "longitudeOfAscendingNode": -11.26,
-    "argumentOfPeriapsis": 114.20,
-    "meanAnomaly0": 0
+  {
+    "name": "Venus",
+    "type": "planet",
+    "texture": "./assets/textures/venus.jpg",
+    "visual": {
+      "radius": 0.95
+    },
+    "orbit": {
+      "semimajorAxis": 108.2,
+      "eccentricity": 0.0067,
+      "inclination": 3.39,
+      "longitudeOfAscendingNode": 76.68,
+      "argumentOfPeriapsis": 54.85,
+      "meanAnomaly0": 50.11
+    }
+  },
+  {
+    "name": "Earth",
+    "type": "planet",
+    "texture": "./assets/textures/earth.jpg",
+    "visual": {
+      "radius": 1.0
+    },
+    "orbit": {
+      "semimajorAxis": 149.6,
+      "eccentricity": 0.0167,
+      "inclination": 0.00,
+      "longitudeOfAscendingNode": -11.26,
+      "argumentOfPeriapsis": 114.20,
+      "meanAnomaly0": 0
+    }
+  },
+  {
+    "name": "Mars",
+    "type": "planet",
+    "texture": "./assets/textures/mars.jpg",
+    "visual": {
+      "radius": 0.53
+    },
+    "orbit": {
+      "semimajorAxis": 227.9,
+      "eccentricity": 0.0934,
+      "inclination": 1.85,
+      "longitudeOfAscendingNode": 49.58,
+      "argumentOfPeriapsis": 286.50,
+      "meanAnomaly0": 19.41
+    }
   }
-}
+]
