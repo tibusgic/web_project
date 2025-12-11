@@ -40,7 +40,7 @@
   
 </section>
 
-- [ ] index.html qui inclut système.js
+- [X] index.html qui inclut système.js
 - [ ] système.js qui est l'interface three.js globale du projet
 - [ ] fichier .js pour définir une planète
 - [X] fichier .js pour définir une étoile
