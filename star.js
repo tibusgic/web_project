@@ -1,8 +1,14 @@
-import * as THREE from 'three';
+//import * as THREE from 'three';
 
-export const genrateStar = (size, starTexture) => {
+export const genrateStar = (size, starTexturePath) => {
   const starGeometry = new THREE.SphereGeometry(size, 50, 50);
-  const starMaterial = new THREE.MeshStandardMaterial({map: starTexture});
+  const starTextureLoader = new THREE.TextureLoader();
+  const starTexture = starTextureLoader.load(starTexturePath);
+  const starMaterial = new THREE.MeshStandardMaterial({
+    map: starTexture,
+    emissive: 0xffff00,  // Fait briller l'étoile
+    emissiveIntensity: 0.5
+  });
 
   const star = new THREE.Mesh(starGeometry, starMaterial);
   const starObj = new THREE.Object3D();
@@ -13,7 +19,7 @@ export const genrateStar = (size, starTexture) => {
 
   starObj.add(star);
   starObj.add(sunLight);
-  scene.add(starObj);
+  
 
   return starObj;
 };
