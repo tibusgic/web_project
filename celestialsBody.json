@@ -2,7 +2,7 @@
   {
     "name": "Mercury",
     "type": "planet",
-    "texture": "./assets/textures/mercury.jpg",
+    "texture": "./textures/mercury.jpg",
     "visual": {
       "radius": 0.38
     },
@@ -18,7 +18,7 @@
   {
     "name": "Venus",
     "type": "planet",
-    "texture": "./assets/textures/venus.jpg",
+    "texture": "./textures/venus.jpg",
     "visual": {
       "radius": 0.95
     },
@@ -34,7 +34,7 @@
   {
     "name": "Earth",
     "type": "planet",
-    "texture": "./assets/textures/earth.jpg",
+    "texture": "./textures/earth.jpg",
     "visual": {
       "radius": 1.0
     },
@@ -50,7 +50,7 @@
   {
     "name": "Mars",
     "type": "planet",
-    "texture": "./assets/textures/mars.jpg",
+    "texture": "./textures/mars.jpg",
     "visual": {
       "radius": 0.53
     },

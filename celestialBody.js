@@ -1,13 +1,14 @@
 import * as THREE from 'three';
 
-export function generatePlanet(size, texture) {
+function generatePlanet(size, texture) {
     const geometry = new THREE.SphereGeometry(size, 32, 32);
     
-    const material = new THREE.MeshStandardMaterial({ 
-        map: texture 
-    });
+    const planetTextureLoader = new THREE.TextureLoader();
+    const planetMaterial = new THREE.MeshStandardMaterial({
+        map: planetTextureLoader.load(texture)
+    }); 
     
-    const planetMesh = new THREE.Mesh(geometry, material);
+    const planetMesh = new THREE.Mesh(geometry, planetMaterial);
     
     return planetMesh;
 }
