@@ -1,5 +1,3 @@
-import * as THREE from 'three';
-
 function generatePlanet(size, texture) {
     const geometry = new THREE.SphereGeometry(size, 32, 32);
     

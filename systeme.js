@@ -1,4 +1,5 @@
 import * as STAR from './star.js';
+import * as CelestialBody from './celestialBody.js';
 
 const WIDTH = window.innerWidth;
 const HEIGHT = window.innerHeight;
@@ -20,6 +21,15 @@ scene.add(camera);
 
 const sun = STAR.genrateStar(16, "./textures/2k_sun.jpg");
 scene.add(sun);
+
+fetch('./celestialBody.json')
+    .then(response => response.json())
+    .then(data => {
+        data.forEach(planetData => {
+            CelestialBody.addPlanetWithOrbit(scene, planetData);
+        });
+    })
+    .catch(error => console.error("Erreur chargement JSON:", error));
 
 // Contrôles de la caméra
 const controls = new THREE.OrbitControls(camera, renderer.domElement);
