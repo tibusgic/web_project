@@ -16,14 +16,18 @@ const basicMaterial = new THREE.MeshBasicMaterial({ color: 0x0095dd });
 const cube = new THREE.Mesh(boxGeometry, basicMaterial);
 scene.add(cube);
 
-const sphereGeometry = new THREE.SphereGeometry(5, 32, 32);
-const sphereMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 });
-const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
-sphere.position.set(15, 0, 0);
-scene.add(sphere);
+
 
 cube.rotation.set(0.4, 0.2, 0);
 */
+const sphereGeometry = new THREE.SphereGeometry(5, 32, 32);
+const sphereMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
+sphere.position.set(0, 0, 0);
+scene.add(sphere);
+
+
+
 filePath = path.join(__dirname, 'earth.json');
 let planete = JSON.parse(fs.readFileSync(filePath));
 
