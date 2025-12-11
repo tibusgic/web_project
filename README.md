@@ -42,7 +42,8 @@
 
 - [ ] index.html qui inclut système.js
 - [ ] système.js qui est l'interface three.js globale du projet
-- [ ] fichiers .js de chaque planète
+- [ ] fichier .js pour définir une planète
+- [X] fichier .js pour définir une étoile
 - [ ] dossier texture
 - [ ] fiche d'intentification des planètes
 - [ ] position.js qui recup les xyz des planete via kepler.js
