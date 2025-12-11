@@ -1,3 +1,8 @@
+import * as STAR from './star.js';
+
+const WIDTH = window.innerWidth;
+const HEIGHT = window.innerHeight;
+
 const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setSize(WIDTH, HEIGHT);
 renderer.setClearColor(0xdddddd, 1);
@@ -5,37 +10,35 @@ document.body.appendChild(renderer.domElement);
 
 const scene = new THREE.Scene();
 
+const ambientLight = new THREE.AmbientLight(0xffffff, 1);
+scene.add(ambientLight);
 
 const camera = new THREE.PerspectiveCamera(70, WIDTH / HEIGHT);
 camera.position.z = 50;
 scene.add(camera);
 
-/*
-const boxGeometry = new THREE.BoxGeometry(10, 10, 10);
-const basicMaterial = new THREE.MeshBasicMaterial({ color: 0x0095dd });
-const cube = new THREE.Mesh(boxGeometry, basicMaterial);
-scene.add(cube);
 
-const sphereGeometry = new THREE.SphereGeometry(5, 32, 32);
-const sphereMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 });
-const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
-sphere.position.set(15, 0, 0);
-scene.add(sphere);
+const sun = STAR.genrateStar(16, "./textures/2k_sun.jpg");
+scene.add(sun);
 
-cube.rotation.set(0.4, 0.2, 0);
-*/
-filePath = path.join(__dirname, 'earth.json');
-let planete = JSON.parse(fs.readFileSync(filePath));
+// Contrôles de la caméra
+const controls = new THREE.OrbitControls(camera, renderer.domElement);
+controls.enableDamping = true;
+controls.dampingFactor = 0.05;
+controls.minDistance = 20;
+controls.maxDistance = 200;
 
-console.log(planete.name);
-console.log(planete.gravity);
-console.log(planete.masse);
-console.log(planete.radius);
-console.log(planete.orbit);
+// Redimensionnement
+window.addEventListener('resize', () => {
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+});
 
 
 function render() {
   requestAnimationFrame(render);
+  controls.update();
   renderer.render(scene, camera);
 }
 render();
