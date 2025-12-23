@@ -8,6 +8,10 @@ function generatePlanet(size, texture) {
     
     const planetMesh = new THREE.Mesh(geometry, planetMaterial);
     
+    // Marquer comme corps céleste et stocker la taille originale
+    planetMesh.userData.celestialBody = true;
+    planetMesh.userData.originalScale = 1;
+    
     return planetMesh;
 }
 
