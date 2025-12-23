@@ -4,7 +4,7 @@
     "type": "planet",
     "texture": "./textures/2k_mercury.jpg",
     "visual": {
-      "radius": 0.38
+      "radius": 0.0024397
     },
     "orbit": {
       "semimajorAxis": 57.9,
@@ -20,7 +20,7 @@
     "type": "planet",
     "texture": "./textures/2k_venus_surface.jpg",
     "visual": {
-      "radius": 0.95
+      "radius": 0.0060518
     },
     "orbit": {
       "semimajorAxis": 108.2,
@@ -36,7 +36,7 @@
     "type": "planet",
     "texture": "./textures/2k_earth_daymap.jpg",
     "visual": {
-      "radius": 1.0
+      "radius": 0.006371
     },
     "orbit": {
       "semimajorAxis": 149.6,
@@ -52,7 +52,7 @@
     "type": "planet",
     "texture": "./textures/2k_mars.jpg",
     "visual": {
-      "radius": 0.53
+      "radius": 0.0033895
     },
     "orbit": {
       "semimajorAxis": 227.9,

@@ -1,26 +1,30 @@
 // controls
 
-controls = new MapControls( camera, renderer.domElement );
+controls = new THREE.OrbitControls( camera, renderer.domElement );
 
 //controls.addEventListener( 'change', render ); // call this only in static scenes (i.e., if there is no animation loop)
 
 controls.enableDamping = true; // an animation loop is required when either damping or auto-rotation are enabled
 controls.dampingFactor = 0.05;
 
-controls.screenSpacePanning = false;
+//zoom molette
+controls.enableZoom = true;
+controls.zoomSpeed = 1.0;
 
+// rotation à 350°
+controls.enableRotate = true;
+controls.rotateSpeed = 0.5;
+
+//déplacement
+controls.enablePan = true;
+controls.panSpeed = 0.8;
+
+//limit distance
 controls.minDistance = 100;
-controls.maxDistance = 500;
-
-controls.maxPolarAngle = Math.PI / 2;
+controls.maxDistance = 5000;
 
 
 window.addEventListener( 'resize', onWindowResize );
-
-
-const gui = new GUI();
-gui.add( controls, 'zoomToCursor' );
-gui.add( controls, 'screenSpacePanning' );
 
 
 
@@ -34,9 +38,8 @@ function onWindowResize() {
 }
 
 function animate() {
-
+    requestAnimationFrame(animate);
     controls.update(); // only required if controls.enableDamping = true, or if controls.autoRotate = true
-
     render();
 
 }

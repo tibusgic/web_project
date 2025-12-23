@@ -30,7 +30,7 @@ camera.position.z = 50;
 scene.add(camera);
 
 
-const sun = STAR.genrateStar(1.3927, "./textures/2k_sun.jpg");
+const sun = STAR.genrateStar(0.696_340, "./textures/2k_sun.jpg");
 scene.add(sun);
 
 // Créer le curseur fixe à l'écran
@@ -66,7 +66,7 @@ inputSlider.oninput = (()=>{
     if (object.userData.celestialBody) {
       // Utiliser la taille originale stockée
       const originalScale = object.userData.originalScale || 1;
-      object.scale.setScalar(originalScale * value);
+      object.scale.setScalar(originalScale * value * 30);
     }
   });
 })
