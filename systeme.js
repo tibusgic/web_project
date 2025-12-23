@@ -17,21 +17,30 @@ labelRenderer.domElement.style.top = '0';
 labelRenderer.domElement.style.pointerEvents = 'none';
 document.body.appendChild(labelRenderer.domElement);
 
-
-
-
+// Scène principale
 const scene = new THREE.Scene();
 
 const ambientLight = new THREE.AmbientLight(0xffffff, 1);
 scene.add(ambientLight);
 
+// Caméra
 const camera = new THREE.PerspectiveCamera(70, WIDTH / HEIGHT);
 camera.position.z = 50;
 scene.add(camera);
 
-
-const sun = STAR.genrateStar(0.696_340, "./textures/2k_sun.jpg");
+// Soleil
+const sun = STAR.genrateStar(0.696340, "./textures/2k_sun.jpg");
 scene.add(sun);
+
+
+
+
+
+
+
+
+
+
 
 // Créer le curseur fixe à l'écran
 const sliderDiv = document.createElement('div');
@@ -73,21 +82,69 @@ inputSlider.oninput = (()=>{
 
 
 
+
+
+
+
+
+// charger les planètes depuis un fichier JSON
+const body = []; //liste des corps célestes
 fetch('./celestialBody.json')
     .then(response => response.json())
     .then(data => {
         data.forEach(planetData => {
-            CelestialBody.addPlanetWithOrbit(scene, planetData);
-        });
+          //générer la planète et son orbite
+            const res = CelestialBody.addPlanetWithOrbit(scene, planetData); 
+            body.push(res);      
+        }); 
     })
     .catch(error => console.error("Erreur chargement JSON:", error));
 
+//raycaster pour les interactions
+const raycaster = new THREE.Raycaster();
+const mouse = new THREE.Vector2();
+
+
+
+
+
+
 // Contrôles de la caméra
 const controls = new THREE.OrbitControls(camera, renderer.domElement);
+
+// Rotation fluide et libre à 360°
 controls.enableDamping = true;
 controls.dampingFactor = 0.05;
-controls.minDistance = 20;
-controls.maxDistance = 200;
+controls.rotateSpeed = 0.5;
+
+// Zoom adapté
+controls.enableZoom = true;
+controls.zoomSpeed = 1.2;
+controls.minDistance = 10;  
+controls.maxDistance = 500;
+
+// Pan libre (déplacement)
+controls.enablePan = true;
+controls.panSpeed = 1.0;
+controls.screenSpacePanning = true;
+
+//controls.minPolarAngle = 0;
+//controls.maxPolarAngle = Math.PI;
+
+// Empêcher le blocage : la caméra peut traverser le centre
+controls.enableKeys = true;
+controls.keys = {
+  LEFT: 37,
+  UP: 38,
+  RIGHT: 39,
+  BOTTOM: 40
+};
+
+// Le point autour duquel on tourne (le soleil au centre)
+controls.target.set(0, 0, 0);
+controls.update();
+
+
 
 // Redimensionnement
 window.addEventListener('resize', () => {
@@ -96,6 +153,27 @@ window.addEventListener('resize', () => {
   renderer.setSize(window.innerWidth, window.innerHeight);
   labelRenderer.setSize(window.innerWidth, window.innerHeight);
 });
+
+//Event clique
+window.addEventListener('click', (event) => {
+  if (body.length === 0) return; // Pas encore chargé
+  mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+  mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
+  raycaster.setFromCamera(mouse, camera);
+
+  // Extraire les mesh des planètes
+  const planetMeshes = body.map(item => item.mesh).filter(mesh => mesh && mesh.isObject3D);
+  const intersects = raycaster.intersectObjects(planetMeshes);
+
+  if (intersects.length > 0) {
+    const selectedPlanet = intersects[0].object;
+    const planetName = selectedPlanet.userData.name || "Planète inconnue";
+    alert(`Vous avez cliqué sur : ${planetName}`);
+    console.log("Données de la planète :", selectedPlanet.userData.planetData);
+  }
+});
+
+
 
 
 function render() {

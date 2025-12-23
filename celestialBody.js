@@ -53,7 +53,12 @@ export function addPlanetWithOrbit(scene, data) {
     const longitudeOfAscendingNode = orbitData.longitudeOfAscendingNode * (Math.PI / 180);
 
     // Création des objets visuels (Mesh et Line)
-    const planetMesh = generatePlanet(data.visual.radius, data.texture); 
+    const planetMesh = generatePlanet(data.visual.radius, data.texture);
+    
+    // Stocker les données de la planète dans userData
+    planetMesh.userData.name = data.name;
+    planetMesh.userData.planetData = data;
+    
     const trajectoryLine = generateOrbit(semiMajorAxis, eccentricity);
 
     // GROUPE 1 : Orientation du plan orbital (Inclinaison i et Noeud Omega)
