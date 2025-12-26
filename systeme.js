@@ -101,6 +101,14 @@ fetch('./celestialBody.json')
     })
     .catch(error => console.error("Erreur chargement JSON:", error));
 
+
+
+
+
+
+
+
+
 // background avec des étoiles
 // couleur noire
 scene.background = new THREE.Color(0x000000);
@@ -110,10 +118,16 @@ const starGeometry = new THREE.BufferGeometry();
 const starCount = 8000;
 const starPositions = [];
 for (let i = 0; i < starCount; i++) {
-  const x = (Math.random() - 0.5) * 2000;
-  const y = (Math.random() - 0.5) * 2000;
-  const z = (Math.random() - 0.5) * 2000;
-  starPositions.push(x, y, z);
+  const range = 2000;
+  const x = (Math.random() - 0.5) * range;
+  const y = (Math.random() - 0.5) * range;
+  const z = (Math.random() - 0.5) * range;
+  if (Math.sqrt(x*x + y*y + z*z) < 200 || Math.sqrt(x*x + y*y + z*z) > 1000) {
+    i--;
+  } 
+  else {
+    starPositions.push(x, y, z);
+  }
 }
 starGeometry.setAttribute('position', new THREE.Float32BufferAttribute(starPositions, 3));
 const starMaterial = new THREE.PointsMaterial({ color: 0xffffff });
