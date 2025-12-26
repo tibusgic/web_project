@@ -14,7 +14,7 @@ export const genrateStar = (size, starTexturePath) => {
   const starObj = new THREE.Object3D();
   star.position.set(0, 0, 0);
 
-  const sunLight = new THREE.PointLight(0xFFFFFF, 2, 3000); //Ajuster au besoin
+  const sunLight = new THREE.PointLight(0xFFFFFF, 2, 300); //Ajuster au besoin
   sunLight.castShadow = true;
 
   starObj.add(star);

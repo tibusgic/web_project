@@ -20,7 +20,7 @@ document.body.appendChild(labelRenderer.domElement);
 // Scène principale
 const scene = new THREE.Scene();
 
-const ambientLight = new THREE.AmbientLight(0xffffff, 1);
+const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
 scene.add(ambientLight);
 
 // Caméra
@@ -30,6 +30,7 @@ scene.add(camera);
 
 // Soleil
 const sun = STAR.genrateStar(0.696340, "./textures/2k_sun.jpg");
+sun.userData.name = "Soleil";
 scene.add(sun);
 
 
@@ -100,12 +101,39 @@ fetch('./celestialBody.json')
     })
     .catch(error => console.error("Erreur chargement JSON:", error));
 
+// background avec des étoiles
+// couleur noire
+scene.background = new THREE.Color(0x000000);
+
+// creer star sky avec particules
+const starGeometry = new THREE.BufferGeometry();
+const starCount = 8000;
+const starPositions = [];
+for (let i = 0; i < starCount; i++) {
+  const x = (Math.random() - 0.5) * 2000;
+  const y = (Math.random() - 0.5) * 2000;
+  const z = (Math.random() - 0.5) * 2000;
+  starPositions.push(x, y, z);
+}
+starGeometry.setAttribute('position', new THREE.Float32BufferAttribute(starPositions, 3));
+const starMaterial = new THREE.PointsMaterial({ color: 0xffffff });
+const starPoints = new THREE.Points(starGeometry, starMaterial);
+scene.add(starPoints);
+
+
+
+
+
+
 //raycaster pour les interactions
 const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
 
 // Variables pour l'animation de la caméra
 let isAnimating = false;
+let animationProgress = 0;
+let startCameraPosition = new THREE.Vector3();
+let startControlsTarget = new THREE.Vector3();
 let targetCameraPosition = new THREE.Vector3();
 let targetControlsTarget = new THREE.Vector3();
 
@@ -125,7 +153,7 @@ controls.rotateSpeed = 0.5;
 // Zoom adapté
 controls.enableZoom = true;
 controls.zoomSpeed = 1.2;
-controls.minDistance = 10;  
+controls.minDistance = 1;  
 controls.maxDistance = 500;
 
 // Pan libre (déplacement)
@@ -168,27 +196,33 @@ window.addEventListener('click', (event) => {
 
   // Extraire les mesh des planètes
   const planetMeshes = body.map(item => item.mesh).filter(mesh => mesh && mesh.isObject3D);
-  const intersects = raycaster.intersectObjects(planetMeshes);
+  const allClickableObjects = [sun, ...planetMeshes];
+  console.log("Objets cliquables :", allClickableObjects);
+  const intersects = raycaster.intersectObjects(allClickableObjects);
 
   if (intersects.length > 0) {
     const selectedPlanet = intersects[0].object;
-    const planetName = selectedPlanet.userData.name || "Planète inconnue";
+    //const planetName = selectedPlanet.userData.name || "Planète inconnue";
     //alert(`Vous avez cliqué sur : ${planetName}`);
     console.log("Données de la planète :", selectedPlanet.userData.planetData);
     
-    // Position de la planète dans l'espace monde
+    // Position de la planète
     const planetWorldPosition = new THREE.Vector3();
     selectedPlanet.getWorldPosition(planetWorldPosition);
     
-    // Calculer la nouvelle position de caméra (vue légèrement au-dessus et en arrière)
+    // Calculer la nouvelle position
     const direction = planetWorldPosition.clone().normalize();
-    const offset = direction.multiplyScalar(5); // Distance de recul
-    offset.y += 3; // Élévation au-dessus de la planète
+    if (direction.length() === 0) direction.set(1, 0, 0); // Si soleil
+    const offset = direction.multiplyScalar(5);
+    offset.y += 3;
     const newCameraPosition = planetWorldPosition.clone().add(offset);
     
-    // Démarrer l'animation fluide
+    // Démarrer l'animation
+    startCameraPosition.copy(camera.position);
+    startControlsTarget.copy(controls.target);
     targetCameraPosition.copy(newCameraPosition);
     targetControlsTarget.copy(planetWorldPosition);
+    animationProgress = 0;
     isAnimating = true;
   }
 });
@@ -199,21 +233,29 @@ window.addEventListener('click', (event) => {
 function render() {
   requestAnimationFrame(render);
   
-  // Animation fluide de la caméra
+
+
+  // Animation de la caméra /////////////////
   if (isAnimating) {
-    const lerpFactor = 0.05; // Plus petit = plus lent, plus grand = plus rapide
+    animationProgress += 0.02; // Vitesse
+    
+    // Easing function
+    const t = Math.min(animationProgress, 1);
+    const easeT = t * (2 - t); // Ease out quad
     
     // Interpolation de la position de la caméra
-    camera.position.lerp(targetCameraPosition, lerpFactor);
+    camera.position.lerpVectors(startCameraPosition, targetCameraPosition, easeT);
     
     // Interpolation de la cible des contrôles
-    controls.target.lerp(targetControlsTarget, lerpFactor);
+    controls.target.lerpVectors(startControlsTarget, targetControlsTarget, easeT);
     
-    // Arrêter l'animation si on est assez proche
-    const distanceToTarget = camera.position.distanceTo(targetCameraPosition);
-    if (distanceToTarget < 0.1) {
+    // Arrêter de l'animation
+    if (animationProgress >= 1) {
+      camera.position.copy(targetCameraPosition);
+      controls.target.copy(targetControlsTarget);
       isAnimating = false;
     }
+    /////////////////////////////////////////
   }
   
   controls.update();
