@@ -29,11 +29,11 @@ function generateOrbit(a, e) {
         // r = distance du soleil
         const r = (a * (1 - e * e)) / (1 + e * Math.cos(theta));
 
-        // Conversion polaire -> cartésien (X, Y)
+        // Conversion polaire -> cartésien (X, Z) - plan horizontal
         const x = r * Math.cos(theta);
-        const y = r * Math.sin(theta);
+        const z = r * Math.sin(theta);
 
-        points.push(new THREE.Vector3(x, y, 0));
+        points.push(new THREE.Vector3(x, 0, z));
     }
 
     const geometry = new THREE.BufferGeometry().setFromPoints(points);
@@ -63,12 +63,12 @@ export function addPlanetWithOrbit(scene, data) {
 
     // GROUPE 1 : Orientation du plan orbital (Inclinaison i et Noeud Omega)
     const orbitalPlaneGroup = new THREE.Group();
-    orbitalPlaneGroup.rotation.z = longitudeOfAscendingNode; 
-    orbitalPlaneGroup.rotation.x = inclination;     
+    orbitalPlaneGroup.rotation.y = longitudeOfAscendingNode; 
+    orbitalPlaneGroup.rotation.z = inclination;     
 
     // GROUPE 2 : Orientation de la forme de l'ellipse (Argument de Périapse omega)
     const orbitShapeGroup = new THREE.Group();
-    orbitShapeGroup.rotation.z = argumentOfPeriapsis; 
+    orbitShapeGroup.rotation.y = argumentOfPeriapsis; 
     
     // Assemblage de la hiérarchie : ShapeGroup -> PlaneGroup -> Scene
     orbitShapeGroup.add(trajectoryLine);
@@ -77,7 +77,7 @@ export function addPlanetWithOrbit(scene, data) {
     
     scene.add(orbitalPlaneGroup);
 
-    // Positionnement initial (Périhélie)
+    // Positionnement initial (Périhélie) - dans le plan XZ
     const initialDistance = semiMajorAxis * (1 - eccentricity);
     planetMesh.position.set(initialDistance, 0, 0);
 

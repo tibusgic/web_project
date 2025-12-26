@@ -104,6 +104,11 @@ fetch('./celestialBody.json')
 const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
 
+// Variables pour l'animation de la caméra
+let isAnimating = false;
+let targetCameraPosition = new THREE.Vector3();
+let targetControlsTarget = new THREE.Vector3();
+
 
 
 
@@ -168,8 +173,23 @@ window.addEventListener('click', (event) => {
   if (intersects.length > 0) {
     const selectedPlanet = intersects[0].object;
     const planetName = selectedPlanet.userData.name || "Planète inconnue";
-    alert(`Vous avez cliqué sur : ${planetName}`);
+    //alert(`Vous avez cliqué sur : ${planetName}`);
     console.log("Données de la planète :", selectedPlanet.userData.planetData);
+    
+    // Position de la planète dans l'espace monde
+    const planetWorldPosition = new THREE.Vector3();
+    selectedPlanet.getWorldPosition(planetWorldPosition);
+    
+    // Calculer la nouvelle position de caméra (vue légèrement au-dessus et en arrière)
+    const direction = planetWorldPosition.clone().normalize();
+    const offset = direction.multiplyScalar(5); // Distance de recul
+    offset.y += 3; // Élévation au-dessus de la planète
+    const newCameraPosition = planetWorldPosition.clone().add(offset);
+    
+    // Démarrer l'animation fluide
+    targetCameraPosition.copy(newCameraPosition);
+    targetControlsTarget.copy(planetWorldPosition);
+    isAnimating = true;
   }
 });
 
@@ -178,6 +198,24 @@ window.addEventListener('click', (event) => {
 
 function render() {
   requestAnimationFrame(render);
+  
+  // Animation fluide de la caméra
+  if (isAnimating) {
+    const lerpFactor = 0.05; // Plus petit = plus lent, plus grand = plus rapide
+    
+    // Interpolation de la position de la caméra
+    camera.position.lerp(targetCameraPosition, lerpFactor);
+    
+    // Interpolation de la cible des contrôles
+    controls.target.lerp(targetControlsTarget, lerpFactor);
+    
+    // Arrêter l'animation si on est assez proche
+    const distanceToTarget = camera.position.distanceTo(targetCameraPosition);
+    if (distanceToTarget < 0.1) {
+      isAnimating = false;
+    }
+  }
+  
   controls.update();
   renderer.render(scene, camera);
   labelRenderer.render(scene, camera);
