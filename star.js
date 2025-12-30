@@ -1,4 +1,6 @@
 import * as THREE from 'three';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
+import { CSS2DRenderer, CSS2DObject } from 'three/examples/jsm/renderers/CSS2DRenderer.js'
 
 export const genrateStar = (size, starTexturePath, name) => {
   const starGeometry = new THREE.SphereGeometry(size, 50, 50);
@@ -25,7 +27,7 @@ export const genrateStar = (size, starTexturePath, name) => {
   nameTagDiv.style.cursor = 'pointer';
 
   // Création name-tag pour la planète CSS2
-  const nameTag = new THREE.CSS2DObject(nameTagDiv);
+  const nameTag = new CSS2DObject(nameTagDiv);
   nameTag.position.set(0, size, 0); 
   star.add(nameTag);
 

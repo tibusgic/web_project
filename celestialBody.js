@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
-import { CSS2DRenderer } from 'three/examples/jsm/renderers/CSS2DRenderer.js'
+import { CSS2DRenderer, CSS2DObject } from 'three/examples/jsm/renderers/CSS2DRenderer.js'
 function generatePlanet(size, texture) {
     const geometry = new THREE.SphereGeometry(size, 128, 128); //128 => qualité
     
@@ -69,7 +69,7 @@ export function addPlanetWithOrbit(scene, data) {
 
 
     // Création name-tag pour la planète CSS2
-    const nameTag = new THREE.CSS2DObject(nameTagDiv);
+    const nameTag = new CSS2DObject(nameTagDiv);
     nameTag.position.set(0, data.visual.radius, 0); 
     planetMesh.add(nameTag);
     
