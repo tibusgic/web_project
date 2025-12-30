@@ -29,8 +29,7 @@ camera.position.z = 50;
 scene.add(camera);
 
 // Soleil
-const sun = STAR.genrateStar(0.696340, "./textures/2k_sun.jpg");
-sun.userData.name = "Soleil";
+const sun = STAR.genrateStar(0.696340, "./textures/2k_sun.jpg", "Soleil");
 scene.add(sun);
 
 
@@ -122,7 +121,7 @@ for (let i = 0; i < starCount; i++) {
   const x = (Math.random() - 0.5) * range;
   const y = (Math.random() - 0.5) * range;
   const z = (Math.random() - 0.5) * range;
-  if (Math.sqrt(x*x + y*y + z*z) < 200 || Math.sqrt(x*x + y*y + z*z) > 1000) {
+  if (Math.sqrt(x*x + y*y + z*z) < 400 || Math.sqrt(x*x + y*y + z*z) > 1000) {
     i--;
   } 
   else {
@@ -227,7 +226,7 @@ window.addEventListener('click', (event) => {
     // Calculer la nouvelle position
     const direction = planetWorldPosition.clone().normalize();
     if (direction.length() === 0) direction.set(1, 0, 0); // Si soleil
-    const offset = direction.multiplyScalar(5);
+    const offset = direction.multiplyScalar(1000 * selectedPlanet.userData.planetData.visual.radius);
     offset.y += 3;
     const newCameraPosition = planetWorldPosition.clone().add(offset);
     
