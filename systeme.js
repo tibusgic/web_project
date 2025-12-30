@@ -1,3 +1,6 @@
+import * as THREE from 'three'
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
+import { CSS2DRenderer } from 'three/examples/jsm/renderers/CSS2DRenderer.js'
 import * as STAR from './star.js';
 import * as CelestialBody from './celestialBody.js';
 
@@ -10,7 +13,7 @@ renderer.setClearColor(0xdddddd, 1);
 document.body.appendChild(renderer.domElement);
 
 // CCS2D Renderer pour les élements html
-const labelRenderer = new THREE.CSS2DRenderer();
+const labelRenderer = new CSS2DRenderer();
 labelRenderer.setSize(WIDTH, HEIGHT);
 labelRenderer.domElement.style.position = 'absolute';
 labelRenderer.domElement.style.top = '0';
@@ -143,7 +146,7 @@ let targetControlsTarget = new THREE.Vector3();
 
 
 // Contrôles de la caméra
-const controls = new THREE.OrbitControls(camera, renderer.domElement);
+const controls = new OrbitControls(camera, renderer.domElement);
 
 // Rotation fluide et libre à 360°
 controls.enableDamping = true;

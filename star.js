@@ -1,4 +1,4 @@
-//import * as THREE from 'three';
+import * as THREE from 'three';
 
 export const genrateStar = (size, starTexturePath) => {
   const starGeometry = new THREE.SphereGeometry(size, 50, 50);
