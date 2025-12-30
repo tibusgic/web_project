@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import { CSS2DRenderer } from 'three/examples/jsm/renderers/CSS2DRenderer.js'
 function generatePlanet(size, texture) {
-    const geometry = new THREE.SphereGeometry(size, 32, 32);
+    const geometry = new THREE.SphereGeometry(size, 128, 128); //128 => qualité
     
     const planetTextureLoader = new THREE.TextureLoader();
     const planetMaterial = new THREE.MeshStandardMaterial({
@@ -22,7 +22,7 @@ function generateOrbit(a, e) {
     // a = demi-grand axe (semimajorAxis)
     // e = excentricité (eccentricity)
     const points = [];
-    const segments = 128; // Plus le chiffre est haut, plus le cercle est lisse
+    const segments = 256; // Plus le chiffre est haut, plus le cercle est lisse
 
     for (let i = 0; i <= segments; i++) {
         // Angle de 0 à 360 degrés (en radians)
@@ -40,7 +40,7 @@ function generateOrbit(a, e) {
     }
 
     const geometry = new THREE.BufferGeometry().setFromPoints(points);
-    const material = new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.5 });
+    const material = new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.5, linewidth: 5 });
     
     return new THREE.Line(geometry, material);
 }
@@ -57,6 +57,21 @@ export function addPlanetWithOrbit(scene, data) {
 
     // Création des objets visuels (Mesh et Line)
     const planetMesh = generatePlanet(data.visual.radius, data.texture);
+
+    //contenu tag HTML
+    const nameTagDiv = document.createElement('div');
+    nameTagDiv.className = 'name-tag';
+    nameTagDiv.textContent = data.name;
+    nameTagDiv.style.cursor = 'pointer';
+
+    // Stocker la référence au mesh dans le div
+    nameTagDiv.userData = {mesh: planetMesh, planetData: data};
+
+
+    // Création name-tag pour la planète CSS2
+    const nameTag = new THREE.CSS2DObject(nameTagDiv);
+    nameTag.position.set(0, data.visual.radius, 0); 
+    planetMesh.add(nameTag);
     
     // Stocker les données de la planète dans userData
     planetMesh.userData.name = data.name;
@@ -86,6 +101,7 @@ export function addPlanetWithOrbit(scene, data) {
 
     return { 
         mesh: planetMesh,
-        data: data
+        data: data,
+        nameTagDiv: nameTagDiv
     };
 }
