@@ -145,13 +145,6 @@ scene.add(starPoints);
 
 
 
-
-//raycaster pour les interactions
-/*
-const raycaster = new THREE.Raycaster();
-const mouse = new THREE.Vector2();
-*/
-
 // Variables pour l'animation de la caméra
 let isAnimating = false;
 let animationProgress = 0;
@@ -238,9 +231,11 @@ document.addEventListener('click', (event) => {
       }
 
       // Créer l'offset pour la caméra
+      const sliderValue = parseFloat(inputSlider.value);
       const distanceFactor = clickedElement.textContent === "Soleil" ? 5 : 10;
-      const offset = direction.multiplyScalar(distanceFactor * planetData.visual.radius);
-      offset.y += planetData.visual.radius * 2; // ajustement en Y
+      const scaledRadius = clickedElement.textContent === "Soleil" ? planetData.visual.radius * sliderValue : planetData.visual.radius * sliderValue * 30;
+      const offset = direction.multiplyScalar(distanceFactor * scaledRadius);
+      offset.y += scaledRadius * 2; // ajustement en Y
       
       const newPose = pose.clone().add(offset);
 
