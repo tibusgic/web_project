@@ -25,6 +25,7 @@ export const genrateStar = (size, starTexturePath, name) => {
   nameTagDiv.className = 'name-tag';
   nameTagDiv.textContent = star.userData.name;
   nameTagDiv.style.cursor = 'pointer';
+  nameTagDiv.userData = {mesh: star, starData: {visual : {radius: size}, starTexturePath, name}};
 
   // Création name-tag pour la planète CSS2
   const nameTag = new CSS2DObject(nameTagDiv);

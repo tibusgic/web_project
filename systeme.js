@@ -18,6 +18,9 @@ labelRenderer.setSize(WIDTH, HEIGHT);
 labelRenderer.domElement.style.position = 'absolute';
 labelRenderer.domElement.style.top = '0';
 labelRenderer.domElement.style.pointerEvents = 'none';
+labelRenderer.domElement.querySelectorAll('.name-tag').forEach(tag => {
+  tag.style.pointerEvents = 'auto';
+});
 document.body.appendChild(labelRenderer.domElement);
 
 // Scène principale
@@ -100,6 +103,8 @@ fetch('./celestialBody.json')
             const res = CelestialBody.addPlanetWithOrbit(scene, planetData); 
             body.push(res);      
         }); 
+        //échelle initiale après le chargement
+        inputSlider.dispatchEvent(new Event('input'));
     })
     .catch(error => console.error("Erreur chargement JSON:", error));
 
@@ -142,8 +147,10 @@ scene.add(starPoints);
 
 
 //raycaster pour les interactions
+/*
 const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
+*/
 
 // Variables pour l'animation de la caméra
 let isAnimating = false;
@@ -203,45 +210,54 @@ window.addEventListener('resize', () => {
   labelRenderer.setSize(window.innerWidth, window.innerHeight);
 });
 
+
 //Event clique
-window.addEventListener('click', (event) => {
-  if (body.length === 0) return; // Pas encore chargé
-  mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-  mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
-  raycaster.setFromCamera(mouse, camera);
+document.addEventListener('click', (event) => {
+  const clickedElement = event.target;
 
-  // Extraire les mesh des planètes
-  const planetMeshes = body.map(item => item.mesh).filter(mesh => mesh && mesh.isObject3D);
-  const allClickableObjects = [sun, ...planetMeshes];
-  console.log("Objets cliquables :", allClickableObjects);
-  const intersects = raycaster.intersectObjects(allClickableObjects);
+  // on vérifie si c'est un name-tag
+  if (clickedElement.classList.contains('name-tag')) {
+    // init des variables
+    let targetMesh = null;
+    let planetData = null;
 
-  if (intersects.length > 0) {
-    const selectedPlanet = intersects[0].object;
-    //const planetName = selectedPlanet.userData.name || "Planète inconnue";
-    //alert(`Vous avez cliqué sur : ${planetName}`);
-    console.log("Données de la planète :", selectedPlanet.userData.planetData);
-    
-    // Position de la planète
-    const planetWorldPosition = new THREE.Vector3();
-    selectedPlanet.getWorldPosition(planetWorldPosition);
-    
-    // Calculer la nouvelle position
-    const direction = planetWorldPosition.clone().normalize();
-    if (direction.length() === 0) direction.set(1, 0, 0); // Si soleil
-    const offset = direction.multiplyScalar(1000 * selectedPlanet.userData.planetData.visual.radius);
-    offset.y += 3;
-    const newCameraPosition = planetWorldPosition.clone().add(offset);
-    
-    // Démarrer l'animation
-    startCameraPosition.copy(camera.position);
-    startControlsTarget.copy(controls.target);
-    targetCameraPosition.copy(newCameraPosition);
-    targetControlsTarget.copy(planetWorldPosition);
-    animationProgress = 0;
-    isAnimating = true;
+    // Récupérer les bonnes données selon le type (planète ou étoile)
+    if (clickedElement.userData) {
+      targetMesh = clickedElement.userData.mesh;
+      planetData = clickedElement.userData.planetData || clickedElement.userData.starData;
+    }
+
+    if (targetMesh && planetData) {
+      const pose = new THREE.Vector3(); // position cible
+      targetMesh.getWorldPosition(pose);
+
+      // Calculer direction depuis l'origine vers le corps céleste
+      const direction = pose.clone().normalize();
+      if (direction.length() === 0) {
+        direction.set(1, 0, 0); // éviter la division par zéro
+      }
+
+      // Créer l'offset pour la caméra
+      const distanceFactor = clickedElement.textContent === "Soleil" ? 5 : 10;
+      const offset = direction.multiplyScalar(distanceFactor * planetData.visual.radius);
+      offset.y += planetData.visual.radius * 2; // ajustement en Y
+      
+      const newPose = pose.clone().add(offset);
+
+      //activer l'animation de transfert de la caméra
+      startCameraPosition.copy(camera.position);
+      startControlsTarget.copy(controls.target);
+      targetCameraPosition.copy(newPose);
+      targetControlsTarget.copy(pose);
+
+      animationProgress = 0;
+      isAnimating = true;
+    }
+  
   }
+
 });
+
 
 
 
