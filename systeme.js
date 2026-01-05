@@ -2,15 +2,16 @@ import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import { CSS2DRenderer } from 'three/examples/jsm/renderers/CSS2DRenderer.js'
 import * as STAR from './star.js';
-import * as CelestialBody from './celestialBody.js';
+import * as Orbit from './Orbit.js';
 
 const WIDTH = window.innerWidth;
 const HEIGHT = window.innerHeight;
-
 const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setSize(WIDTH, HEIGHT);
 renderer.setClearColor(0xdddddd, 1);
 document.body.appendChild(renderer.domElement);
+
+
 
 // CCS2D Renderer pour les élements html
 const labelRenderer = new CSS2DRenderer();
@@ -23,28 +24,23 @@ labelRenderer.domElement.querySelectorAll('.name-tag').forEach(tag => {
 });
 document.body.appendChild(labelRenderer.domElement);
 
+
+
 // Scène principale
 const scene = new THREE.Scene();
-
 const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
 scene.add(ambientLight);
+
 
 // Caméra
 const camera = new THREE.PerspectiveCamera(70, WIDTH / HEIGHT, 0.1, 100000);
 camera.position.z = 50;
 scene.add(camera);
 
+
 // Soleil
 const sun = STAR.genrateStar(0.696340, "./textures/2k_sun.jpg", "Soleil");
 scene.add(sun);
-
-
-
-
-
-
-
-
 
 
 
@@ -87,41 +83,33 @@ inputSlider.oninput = (()=>{
 })
 
 
+
 //import la fonction des cartes d'information
 import { createPlanetCard } from './card.js';
-
-
-
-
 
 
 
 // charger les planètes depuis un fichier JSON
 const body = []; //liste des corps célestes
 fetch('./celestialBody.json')
-    .then(response => response.json())
-    .then(data => {
-        data.forEach(planetData => {
-          //générer la planète et son orbite
-            const res = CelestialBody.addPlanetWithOrbit(scene, planetData); 
-            body.push(res);      
-        }); 
-        //échelle initiale après le chargement
-        inputSlider.dispatchEvent(new Event('input'));
-    })
-    .catch(error => console.error("Erreur chargement JSON:", error));
-
-
-
-
-
-
+  .then(response => response.json())
+  .then(data => {
+    data.forEach(planetData => {
+      //générer la planète et son orbite
+      const res = Orbit.addPlanetWithOrbit(scene, planetData); 
+      body.push(res);      
+    }); 
+    //échelle initiale après le chargement
+    inputSlider.dispatchEvent(new Event('input'));
+  })
+  .catch(error => console.error("Erreur chargement JSON:", error));
 
 
 
 // background avec des étoiles
-// couleur noire
-scene.background = new THREE.Color(0x000000);
+scene.background = new THREE.Color(0x000000); // couleur noire
+
+
 
 // creer star sky avec particules
 const starGeometry = new THREE.BufferGeometry();
@@ -148,8 +136,6 @@ scene.add(starPoints);
 
 
 
-
-
 // Variables pour l'animation de la caméra
 let isAnimating = false;
 let animationProgress = 0;
@@ -160,16 +146,17 @@ let targetControlsTarget = new THREE.Vector3();
 
 
 
-
-
-
 // Contrôles de la caméra
 const controls = new OrbitControls(camera, renderer.domElement);
+
+
 
 // Rotation fluide et libre à 360°
 controls.enableDamping = true;
 controls.dampingFactor = 0.05;
 controls.rotateSpeed = 0.5;
+
+
 
 // Zoom adapté
 controls.enableZoom = true;
@@ -177,13 +164,16 @@ controls.zoomSpeed = 1.2;
 controls.minDistance = 1;  
 controls.maxDistance = 2000;
 
+
+
 // Pan libre (déplacement)
 controls.enablePan = true;
 controls.panSpeed = 1.0;
 controls.screenSpacePanning = true;
-
 //controls.minPolarAngle = 0;
 //controls.maxPolarAngle = Math.PI;
+
+
 
 // Empêcher le blocage : la caméra peut traverser le centre
 controls.enableKeys = true;
@@ -193,6 +183,8 @@ controls.keys = {
   RIGHT: 39,
   BOTTOM: 40
 };
+
+
 
 // Le point autour duquel on tourne (le soleil au centre)
 controls.target.set(0, 0, 0);
@@ -207,6 +199,7 @@ window.addEventListener('resize', () => {
   renderer.setSize(window.innerWidth, window.innerHeight);
   labelRenderer.setSize(window.innerWidth, window.innerHeight);
 });
+
 
 
 //Event clique
@@ -231,8 +224,6 @@ document.addEventListener('click', (event) => {
       if (planetData.type === 'planet') {
         createPlanetCard(planetData);
       }
-
-
 
       const pose = new THREE.Vector3(); // position cible
       targetMesh.getWorldPosition(pose);
@@ -261,19 +252,62 @@ document.addEventListener('click', (event) => {
       animationProgress = 0;
       isAnimating = true;
     }
-  
   }
-
 });
 
 
 
+// Initialisation de l'horloge
+const clock = new THREE.Clock();
+const timeScale = 0.5;
 
 
+
+// Rendu
 function render() {
   requestAnimationFrame(render);
   
+  // Animation orbitale /////////////////
+  // Gestion du temps
+  const delta = clock.getDelta();
+  const elapsedTime = clock.getElapsedTime() * timeScale;
 
+  // Mise à jour de la position et rotation des planètes
+  body.forEach(obj => {
+    if (obj.data && obj.mesh) {
+      const data = obj.data;
+      const mesh = obj.mesh;
+
+      // --- Rotation (sur elle-même) ---
+      // Vitesse basée sur la période de rotation (inverse)
+      // Ajustement arbitraire pour rendre le mouvement visible
+      const rotSpeed = (1 / data.physical.rotationPeriod) * 2;
+      mesh.rotation.y += rotSpeed * delta;
+
+      // --- Révolution (autour du soleil) ---
+      const orbit = data.orbit;
+      const a = orbit.semimajorAxis;
+      const e = orbit.eccentricity;
+      const T = orbit.orbitalPeriod;
+      const M0 = orbit.meanAnomaly0 * (Math.PI / 180);
+
+      // Mouvement moyen n (rad/jour si T est en jours)
+      const n = (2 * Math.PI) / T;
+      
+      // Anomalie Moyenne M (ajout d'un facteur 50 pour accélérer la visu)
+      const M = M0 + n * elapsedTime * 50;
+
+      // Anomalie Excentrique E (Approx: E ~ M + e*sin(M))
+      const E = M + e * Math.sin(M);
+
+      // Position dans le plan de l'orbite
+      const x = a * (Math.cos(E) - e);
+      const z = a * Math.sqrt(1 - e * e) * Math.sin(E);
+
+      mesh.position.set(x, 0, z);
+    }
+    /////////////////////////////////////////
+  });
 
   // Animation de la caméra /////////////////
   if (isAnimating) {
