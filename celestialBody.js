@@ -1,5 +1,8 @@
+import * as THREE from 'three';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
+import { CSS2DRenderer, CSS2DObject } from 'three/examples/jsm/renderers/CSS2DRenderer.js'
 function generatePlanet(size, texture) {
-    const geometry = new THREE.SphereGeometry(size, 32, 32);
+    const geometry = new THREE.SphereGeometry(size, 128, 128); //128 => qualité
     
     const planetTextureLoader = new THREE.TextureLoader();
     const planetMaterial = new THREE.MeshStandardMaterial({
@@ -8,6 +11,10 @@ function generatePlanet(size, texture) {
     
     const planetMesh = new THREE.Mesh(geometry, planetMaterial);
     
+    // Marquer comme corps céleste et stocker la taille originale
+    planetMesh.userData.celestialBody = true;
+    planetMesh.userData.originalScale = 1;
+    
     return planetMesh;
 }
 
@@ -15,7 +22,7 @@ function generateOrbit(a, e) {
     // a = demi-grand axe (semimajorAxis)
     // e = excentricité (eccentricity)
     const points = [];
-    const segments = 128; // Plus le chiffre est haut, plus le cercle est lisse
+    const segments = 256; // Plus le chiffre est haut, plus le cercle est lisse
 
     for (let i = 0; i <= segments; i++) {
         // Angle de 0 à 360 degrés (en radians)
@@ -25,15 +32,15 @@ function generateOrbit(a, e) {
         // r = distance du soleil
         const r = (a * (1 - e * e)) / (1 + e * Math.cos(theta));
 
-        // Conversion polaire -> cartésien (X, Y)
+        // Conversion polaire -> cartésien (X, Z) - plan horizontal
         const x = r * Math.cos(theta);
-        const y = r * Math.sin(theta);
+        const z = r * Math.sin(theta);
 
-        points.push(new THREE.Vector3(x, y, 0));
+        points.push(new THREE.Vector3(x, 0, z));
     }
 
     const geometry = new THREE.BufferGeometry().setFromPoints(points);
-    const material = new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.5 });
+    const material = new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.5, linewidth: 5 });
     
     return new THREE.Line(geometry, material);
 }
@@ -49,17 +56,37 @@ export function addPlanetWithOrbit(scene, data) {
     const longitudeOfAscendingNode = orbitData.longitudeOfAscendingNode * (Math.PI / 180);
 
     // Création des objets visuels (Mesh et Line)
-    const planetMesh = generatePlanet(data.visual.radius, data.texture); 
+    const planetMesh = generatePlanet(data.visual.radius, data.texture);
+
+    //contenu tag HTML
+    const nameTagDiv = document.createElement('div');
+    nameTagDiv.className = 'name-tag';
+    nameTagDiv.textContent = data.name;
+    nameTagDiv.style.cursor = 'pointer';
+
+    // Stocker la référence au mesh dans le div
+    nameTagDiv.userData = {mesh: planetMesh, planetData: data};
+
+
+    // Création name-tag pour la planète CSS2
+    const nameTag = new CSS2DObject(nameTagDiv);
+    nameTag.position.set(0, data.visual.radius, 0); 
+    planetMesh.add(nameTag);
+    
+    // Stocker les données de la planète dans userData
+    planetMesh.userData.name = data.name;
+    planetMesh.userData.planetData = data;
+    
     const trajectoryLine = generateOrbit(semiMajorAxis, eccentricity);
 
     // GROUPE 1 : Orientation du plan orbital (Inclinaison i et Noeud Omega)
     const orbitalPlaneGroup = new THREE.Group();
-    orbitalPlaneGroup.rotation.z = longitudeOfAscendingNode; 
-    orbitalPlaneGroup.rotation.x = inclination;     
+    orbitalPlaneGroup.rotation.y = longitudeOfAscendingNode; 
+    orbitalPlaneGroup.rotation.z = inclination;     
 
     // GROUPE 2 : Orientation de la forme de l'ellipse (Argument de Périapse omega)
     const orbitShapeGroup = new THREE.Group();
-    orbitShapeGroup.rotation.z = argumentOfPeriapsis; 
+    orbitShapeGroup.rotation.y = argumentOfPeriapsis; 
     
     // Assemblage de la hiérarchie : ShapeGroup -> PlaneGroup -> Scene
     orbitShapeGroup.add(trajectoryLine);
@@ -68,12 +95,13 @@ export function addPlanetWithOrbit(scene, data) {
     
     scene.add(orbitalPlaneGroup);
 
-    // Positionnement initial (Périhélie)
+    // Positionnement initial (Périhélie) - dans le plan XZ
     const initialDistance = semiMajorAxis * (1 - eccentricity);
     planetMesh.position.set(initialDistance, 0, 0);
 
     return { 
         mesh: planetMesh,
-        data: data
+        data: data,
+        nameTagDiv: nameTagDiv
     };
 }

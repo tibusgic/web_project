@@ -1,0 +1,441 @@
+/* ═══════════════════════════════════════════════════════════
+   PLANET CARD - SCI-FI HOLOGRAPHIC STYLE
+   ═══════════════════════════════════════════════════════════ */
+/* background of the page black */
+body {
+  background-color: #000000;
+}
+
+.close-card {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: rgba(255, 60, 60, 0.2);
+  border: 1px solid #ff3c3c;
+  color: #ff3c3c;
+  width: 35px;
+  height: 35px;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  z-index: 10;
+}
+
+.close-card:hover {
+  background: rgba(255, 60, 60, 0.4);
+  box-shadow: 0 0 15px rgba(255, 60, 60, 0.6);
+}
+
+.cards-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 20px;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.planet-card {
+  width: 20%;
+  padding: 16px;
+  background: var(--bg-transparent);
+  border: var(--border-width) solid var(--primary-color);
+  box-shadow:
+    0 0 30px rgba(0, 212, 255, 0.3),
+    0 0 60px rgba(0, 212, 255, 0.1),
+    inset 0 0 30px rgba(0, 212, 255, 0.05);
+  color: var(--primary-color);
+  font-family: 'Courier New', monospace;
+  pointer-events: auto;
+  position: relative;
+  clip-path: polygon(
+    16px 0%,
+    calc(100% - 16px) 0%,
+    100% 16px,
+    100% calc(100% - 16px),
+    calc(100% - 16px) 100%,
+    16px 100%,
+    0% calc(100% - 16px),
+    0% 16px
+  );
+}
+
+/* Corner accents */
+.planet-card::before,
+.planet-card::after {
+  content: '';
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  border: var(--border-width) solid var(--primary-color);
+  pointer-events: none;
+}
+
+.planet-card::before {
+  top: 8px;
+  left: 8px;
+  border-right: none;
+  border-bottom: none;
+  clip-path: polygon(0 0, 100% 0, 0 100%);
+}
+
+.planet-card::after {
+  bottom: 8px;
+  right: 8px;
+  border-left: none;
+  border-top: none;
+  clip-path: polygon(100% 0, 100% 100%, 0 100%);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   HEADER
+   ═══════════════════════════════════════════════════════════ */
+
+.planet-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(0, 212, 255, 0.3);
+}
+
+.header-left {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.planet-name {
+  font-size: 22px;
+  margin: 0;
+  letter-spacing: 4px;
+  font-weight: bold;
+  text-shadow: 
+    0 0 10px var(--primary-color),
+    0 0 20px rgba(0, 212, 255, 0.5);
+  background: linear-gradient(180deg, #ffffff 0%, var(--primary-color) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.planet-type {
+  font-size: 10px;
+  letter-spacing: 3px;
+  opacity: 0.6;
+  text-transform: uppercase;
+}
+
+.header-icon {
+  font-size: 28px;
+  opacity: 0.4;
+  text-shadow: 0 0 15px var(--primary-color);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   DESCRIPTION
+   ═══════════════════════════════════════════════════════════ */
+
+.planet-description {
+  font-size: 11px;
+  margin: 0 0 16px 0;
+  line-height: 1.6;
+  color: rgba(200, 240, 255, 0.8);
+  padding: 10px;
+  background: rgba(0, 212, 255, 0.03);
+  border-left: 2px solid rgba(0, 212, 255, 0.3);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   SECTIONS
+   ═══════════════════════════════════════════════════════════ */
+
+.planet-section {
+  margin-top: 14px;
+  padding: 12px;
+  background: rgba(0, 20, 40, 0.4);
+  border: 1px solid rgba(0, 212, 255, 0.15);
+  position: relative;
+}
+
+/* Section corner cuts */
+.planet-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 0 12px 12px 0;
+  border-color: transparent rgba(0, 20, 40, 0.9) transparent transparent;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.section-header i {
+  font-size: 14px;
+  color: var(--secondary-color);
+  text-shadow: 0 0 8px var(--secondary-color);
+}
+
+.section-header h3 {
+  font-size: 11px;
+  margin: 0;
+  letter-spacing: 3px;
+  font-weight: normal;
+  flex-grow: 1;
+}
+
+.section-divider {
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    var(--primary-color) 0%,
+    rgba(0, 212, 255, 0.3) 50%,
+    transparent 100%
+  );
+  margin-bottom: 10px;
+  box-shadow: 0 0 4px var(--primary-color);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   STATS GRID
+   ═══════════════════════════════════════════════════════════ */
+
+.planet-stats {
+  display: grid;
+  gap: 6px;
+}
+
+.planet-stats .stat {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 11px;
+  padding: 4px 0;
+  border-bottom: 1px solid rgba(0, 212, 255, 0.08);
+}
+
+.planet-stats .stat:last-child {
+  border-bottom: none;
+}
+
+.stat .label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  opacity: 0.7;
+}
+
+.stat .label i {
+  font-size: 10px;
+  color: var(--primary-color);
+}
+
+.stat .value {
+  font-weight: bold;
+  text-shadow: 0 0 8px var(--primary-color);
+  color: #ffffff;
+}
+
+.stat .value .unit {
+  font-size: 9px;
+  opacity: 0.6;
+  font-weight: normal;
+  margin-left: 2px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   ATMOSPHERE - PERIODIC ELEMENT PILLS
+   ═══════════════════════════════════════════════════════════ */
+
+.atmosphere-badge {
+  font-size: 9px;
+  padding: 2px 8px;
+  background: rgba(0, 102, 255, 0.2);
+  border: 1px solid var(--secondary-color);
+  letter-spacing: 1px;
+  color: var(--secondary-color);
+  text-shadow: 0 0 5px var(--secondary-color);
+}
+
+.atmosphere-composition {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+}
+
+.element-pill {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 8px 12px;
+  background: rgba(0, 20, 40, 0.6);
+  border: 1px solid rgba(0, 212, 255, 0.3);
+  min-width: 50px;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.element-pill:hover {
+  border-color: var(--primary-color);
+  box-shadow: 
+    0 0 15px rgba(0, 212, 255, 0.4),
+    inset 0 0 10px rgba(0, 212, 255, 0.1);
+  transform: translateY(-2px);
+}
+
+.element-symbol {
+  font-size: 18px;
+  font-weight: bold;
+  color: #ffffff;
+  text-shadow: 
+    0 0 10px var(--primary-color),
+    0 0 20px rgba(0, 212, 255, 0.5);
+  line-height: 1;
+}
+
+.element-name {
+  font-size: 8px;
+  letter-spacing: 1px;
+  opacity: 0.6;
+  margin-top: 4px;
+  text-transform: uppercase;
+}
+
+.element-percent {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  font-size: 9px;
+  font-weight: bold;
+  padding: 2px 5px;
+  background: var(--secondary-color);
+  color: #000;
+  border-radius: 2px;
+  box-shadow: 0 0 8px var(--secondary-color);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   TEMPERATURE DISPLAY
+   ═══════════════════════════════════════════════════════════ */
+
+.temperature-display {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.temp-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.temp-label {
+  font-size: 9px;
+  letter-spacing: 2px;
+  opacity: 0.5;
+}
+
+.temp-value {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.temp-min .temp-value {
+  color: #4da6ff;
+  text-shadow: 0 0 10px #4da6ff;
+}
+
+.temp-avg .temp-value {
+  color: var(--primary-color);
+  text-shadow: 0 0 10px var(--primary-color);
+}
+
+.temp-max .temp-value {
+  color: var(--accent-color);
+  text-shadow: 0 0 10px var(--accent-color);
+}
+
+/* Temperature bar */
+.temp-bar {
+  height: 6px;
+  background: rgba(0, 20, 40, 0.6);
+  border: 1px solid rgba(0, 212, 255, 0.2);
+  position: relative;
+  overflow: visible;
+}
+
+.temp-gradient {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    90deg,
+    #4da6ff 0%,
+    var(--primary-color) 50%,
+    var(--accent-color) 100%
+  );
+  opacity: 0.6;
+}
+
+.temp-marker {
+  position: absolute;
+  top: 50%;
+  width: 8px;
+  height: 8px;
+  background: var(--primary-color);
+  border: 1px solid #ffffff;
+  transform: translate(-50%, -50%) rotate(45deg);
+  box-shadow: 0 0 8px var(--primary-color);
+}
+
+.temp-marker-min {
+  background: #4da6ff;
+  box-shadow: 0 0 8px #4da6ff;
+}
+
+.temp-marker-avg {
+  background: var(--primary-color);
+  box-shadow: 0 0 8px var(--primary-color);
+}
+
+.temp-marker-max {
+  background: var(--accent-color);
+  box-shadow: 0 0 8px var(--accent-color);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   ANIMATIONS
+   ═══════════════════════════════════════════════════════════ */
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 30px rgba(0, 212, 255, 0.3); }
+  50% { box-shadow: 0 0 40px rgba(0, 212, 255, 0.5); }
+}
+
+.planet-card:hover {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* Scanline effect */
+.planet-card::selection {
+  background: var(--primary-color);
+  color: #000;
+}

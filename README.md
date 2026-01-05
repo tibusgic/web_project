@@ -26,6 +26,14 @@
 </section>
 
 <section>
+<h2>Démarrer en local | Utilisation de npm</h2>
+<ul>
+  <li>npm install</li>
+  <li>npm run dev</li>
+</ul>
+</section>
+
+<section>
   <h2>Fonctionnalités prévues</h2>
   <ul>
     <li>Affichage en 3D des planètes et de leurs orbites autour du Soleil.</li>
@@ -44,7 +52,8 @@
 - [ ] système.js qui est l'interface three.js globale du projet
 - [ ] fichier .js pour définir une planète
 - [X] fichier .js pour définir une étoile
-- [ ] dossier texture
+- [X] dossier texture
+- [X] curseur de changement d'echelle
 - [ ] fiche d'intentification des planètes
 - [ ] position.js qui recup les xyz des planete via kepler.js
 
