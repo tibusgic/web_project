@@ -17,7 +17,7 @@ export const genrateStar = (size, starTexturePath, name) => {
   star.position.set(0, 0, 0);
   star.userData.name = name;
 
-  const sunLight = new THREE.PointLight(0xFFFFFF, 2, 300); //Ajuster au besoin
+  const sunLight = new THREE.PointLight(0xFFFFFF, 1, 3000); //Ajuster au besoin
   sunLight.castShadow = true;
 
   //contenu tag HTML

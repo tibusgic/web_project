@@ -30,7 +30,7 @@ const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
 scene.add(ambientLight);
 
 // Caméra
-const camera = new THREE.PerspectiveCamera(70, WIDTH / HEIGHT);
+const camera = new THREE.PerspectiveCamera(70, WIDTH / HEIGHT, 0.1, 100000);
 camera.position.z = 50;
 scene.add(camera);
 
@@ -127,12 +127,14 @@ scene.background = new THREE.Color(0x000000);
 const starGeometry = new THREE.BufferGeometry();
 const starCount = 8000;
 const starPositions = [];
+const minDistance = 4500;
+const maxDistance = 12000;
 for (let i = 0; i < starCount; i++) {
-  const range = 2000;
+  const range = 20000;
   const x = (Math.random() - 0.5) * range;
   const y = (Math.random() - 0.5) * range;
   const z = (Math.random() - 0.5) * range;
-  if (Math.sqrt(x*x + y*y + z*z) < 400 || Math.sqrt(x*x + y*y + z*z) > 1000) {
+  if (Math.sqrt(x*x + y*y + z*z) < minDistance || Math.sqrt(x*x + y*y + z*z) > maxDistance) {
     i--;
   } 
   else {
@@ -173,7 +175,7 @@ controls.rotateSpeed = 0.5;
 controls.enableZoom = true;
 controls.zoomSpeed = 1.2;
 controls.minDistance = 1;  
-controls.maxDistance = 500;
+controls.maxDistance = 2000;
 
 // Pan libre (déplacement)
 controls.enablePan = true;
