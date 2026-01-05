@@ -267,47 +267,70 @@ const timeScale = 0.5;
 function render() {
   requestAnimationFrame(render);
   
-  // Animation orbitale /////////////////
   // Gestion du temps
   const delta = clock.getDelta();
   const elapsedTime = clock.getElapsedTime() * timeScale;
 
   // Mise à jour de la position et rotation des planètes
-  body.forEach(obj => {
-    if (obj.data && obj.mesh) {
-      const data = obj.data;
-      const mesh = obj.mesh;
+  // On parcourt la liste des planètes une par une avec une boucle classique
+  for (let i = 0; i < body.length; i++) {
+    let obj = body[i];
 
-      // --- Rotation (sur elle-même) ---
-      // Vitesse basée sur la période de rotation (inverse)
-      // Ajustement arbitraire pour rendre le mouvement visible
-      const rotSpeed = (1 / data.physical.rotationPeriod) * 2;
-      mesh.rotation.y += rotSpeed * delta;
-
-      // --- Révolution (autour du soleil) ---
-      const orbit = data.orbit;
-      const a = orbit.semimajorAxis;
-      const e = orbit.eccentricity;
-      const T = orbit.orbitalPeriod;
-      const M0 = orbit.meanAnomaly0 * (Math.PI / 180);
-
-      // Mouvement moyen n (rad/jour si T est en jours)
-      const n = (2 * Math.PI) / T;
+    // On vérifie que la planète a bien ses données et son objet 3D
+    if (obj.data != null && obj.mesh != null) {
       
-      // Anomalie Moyenne M (ajout d'un facteur 50 pour accélérer la visu)
-      const M = M0 + n * elapsedTime * 50;
+      let data = obj.data;
+      let mesh = obj.mesh;
 
-      // Anomalie Excentrique E (Approx: E ~ M + e*sin(M))
-      const E = M + e * Math.sin(M);
+      // --- Partie 1 : La rotation sur elle-même ---
+      
+      // Période de rotation (en jours)
+      let rotP = data.physical.rotationPeriod;
+      
+      // On calcule la vitesse (plus la période est petite, plus ça tourne vite)
+      let omega = (1 / rotP) * 2;
+      
+      // On ajoute la vitesse à la rotation actuelle
+      mesh.rotation.y = mesh.rotation.y + (omega * delta);
 
-      // Position dans le plan de l'orbite
-      const x = a * (Math.cos(E) - e);
-      const z = a * Math.sqrt(1 - e * e) * Math.sin(E);
 
+      // --- Partie 2 : Le déplacement autour du soleil ---
+
+      let orbit = data.orbit;
+
+      // Variables mathématiques (Orbital Elements)
+      let a = orbit.semimajorAxis;    // Demi-grand axe
+      let e = orbit.eccentricity;     // Excentricité
+      let T = orbit.orbitalPeriod;    // Période orbitale
+      
+      // Anomalie moyenne initiale (convertie en radians)
+      let M0 = orbit.meanAnomaly0 * (Math.PI / 180);
+
+      // Mouvement moyen n (vitesse angulaire moyenne)
+      let n = (2 * Math.PI) / T;
+
+      // t représente le temps simulé
+      // (On multiplie par 50 pour que ça aille plus vite à l'écran)
+      let t = elapsedTime * 50;
+
+      // Anomalie Moyenne M
+      let M = M0 + (n * t);
+
+      // Anomalie Excentrique E (Approximation : E = M + e * sin(M))
+      let E = M + e * Math.sin(M);
+
+      // Calcul de la coordonnée x
+      let x = a * (Math.cos(E) - e);
+
+      // Calcul de la coordonnée z
+      // On calcule d'abord le facteur de l'axe mineur
+      let factor = Math.sqrt(1 - (e * e));
+      let z = a * factor * Math.sin(E);
+
+      // On applique les nouvelles positions (x, 0, z)
       mesh.position.set(x, 0, z);
     }
-    /////////////////////////////////////////
-  });
+  }
 
   // Animation de la caméra /////////////////
   if (isAnimating) {
