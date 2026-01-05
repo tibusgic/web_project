@@ -19,6 +19,13 @@ canvas {
 }
 
 
+#page {
+    transform: scale(0.67);
+    transform-origin: top left;
+    width: calc(100% / 0.67);
+    height: calc(100% / 0.67);
+}
+
 
 
 

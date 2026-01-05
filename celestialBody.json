@@ -2,9 +2,16 @@
   {
     "name": "Mercury",
     "type": "planet",
+    "description": "Mercury is the closest planet to the Sun and the smallest in the Solar System. Its surface is heavily cratered and it experiences extreme temperature variations due to its lack of a true atmosphere.",
     "texture": "./textures/2k_mercury.jpg",
     "visual": {
       "radius": 0.0024397
+    },
+    "physical": {
+      "mass": 3.30e23,
+      "density": 5427,
+      "gravity": 3.7,
+      "rotationPeriod": 58.65
     },
     "orbit": {
       "semimajorAxis": 57.9,
@@ -12,15 +19,38 @@
       "inclination": 7.00,
       "longitudeOfAscendingNode": 48.33,
       "argumentOfPeriapsis": 29.12,
-      "meanAnomaly0": 174.79
+      "meanAnomaly0": 174.79,
+      "orbitalPeriod": 87.97
+    },
+    "atmosphere": {
+      "exists": true,
+      "type": "Exosphere",
+      "mainComponents": [
+        { "name": "Oxygen", "symbol": "O", "percentage": 42 },
+        { "name": "Sodium", "symbol": "Na", "percentage": 29 },
+        { "name": "Hydrogen", "symbol": "H", "percentage": 22 },
+        { "name": "Helium", "symbol": "He", "percentage": 6 }
+      ]
+    },
+    "temperature": {
+      "min": -173,
+      "max": 427,
+      "average": 167
     }
   },
   {
     "name": "Venus",
     "type": "planet",
+    "description": "Venus is the second planet from the Sun and the hottest in the Solar System. Its thick atmosphere traps heat in a runaway greenhouse effect, making it hotter than Mercury despite being farther from the Sun.",
     "texture": "./textures/2k_venus_surface.jpg",
     "visual": {
       "radius": 0.0060518
+    },
+    "physical": {
+      "mass": 4.87e24,
+      "density": 5243,
+      "gravity": 8.87,
+      "rotationPeriod": 243
     },
     "orbit": {
       "semimajorAxis": 108.2,
@@ -28,15 +58,37 @@
       "inclination": 3.39,
       "longitudeOfAscendingNode": 76.68,
       "argumentOfPeriapsis": 54.85,
-      "meanAnomaly0": 50.11
+      "meanAnomaly0": 50.11,
+      "orbitalPeriod": 224.7
+    },
+    "atmosphere": {
+      "exists": true,
+      "type": "Dense",
+      "mainComponents": [
+        { "name": "Carbon Dioxide", "symbol": "CO₂", "percentage": 96 },
+        { "name": "Nitrogen", "symbol": "N", "percentage": 3.5 },
+        { "name": "Sulfur Dioxide", "symbol": "SO₂", "percentage": 0.5 }
+      ]
+    },
+    "temperature": {
+      "min": 437,
+      "max": 497,
+      "average": 464
     }
   },
   {
     "name": "Earth",
     "type": "planet",
+    "description": "Earth is the third planet from the Sun and the only astronomical object known to harbor life. About 71% of its surface is covered with water, and it has a protective magnetic field and atmosphere.",
     "texture": "./textures/2k_earth_daymap.jpg",
     "visual": {
       "radius": 0.006371
+    },
+    "physical": {
+      "mass": 5.97e24,
+      "density": 5514,
+      "gravity": 9.81,
+      "rotationPeriod": 1.0
     },
     "orbit": {
       "semimajorAxis": 149.6,
@@ -44,15 +96,38 @@
       "inclination": 0.00,
       "longitudeOfAscendingNode": -11.26,
       "argumentOfPeriapsis": 114.20,
-      "meanAnomaly0": 0
+      "meanAnomaly0": 0,
+      "orbitalPeriod": 365.25
+    },
+    "atmosphere": {
+      "exists": true,
+      "type": "Breathable",
+      "mainComponents": [
+        { "name": "Nitrogen", "symbol": "N", "percentage": 78 },
+        { "name": "Oxygen", "symbol": "O", "percentage": 21 },
+        { "name": "Argon", "symbol": "Ar", "percentage": 0.9 },
+        { "name": "Carbon Dioxide", "symbol": "CO₂", "percentage": 0.04 }
+      ]
+    },
+    "temperature": {
+      "min": -89,
+      "max": 57,
+      "average": 15
     }
   },
   {
     "name": "Mars",
     "type": "planet",
+    "description": "Mars is the fourth planet from the Sun and is often called the Red Planet due to its reddish appearance caused by iron oxide on its surface. It has the largest volcano and canyon in the Solar System.",
     "texture": "./textures/2k_mars.jpg",
     "visual": {
       "radius": 0.0033895
+    },
+    "physical": {
+      "mass": 6.42e23,
+      "density": 3934,
+      "gravity": 3.72,
+      "rotationPeriod": 1.03
     },
     "orbit": {
       "semimajorAxis": 227.9,
@@ -60,7 +135,23 @@
       "inclination": 1.85,
       "longitudeOfAscendingNode": 49.58,
       "argumentOfPeriapsis": 286.50,
-      "meanAnomaly0": 19.41
+      "meanAnomaly0": 19.41,
+      "orbitalPeriod": 687
+    },
+    "atmosphere": {
+      "exists": true,
+      "type": "Thin",
+      "mainComponents": [
+        { "name": "Carbon Dioxide", "symbol": "CO₂", "percentage": 95 },
+        { "name": "Nitrogen", "symbol": "N", "percentage": 2.7 },
+        { "name": "Argon", "symbol": "Ar", "percentage": 1.6 },
+        { "name": "Oxygen", "symbol": "O", "percentage": 0.13 }
+      ]
+    },
+    "temperature": {
+      "min": -125,
+      "max": 20,
+      "average": -65
     }
   }
 ]

@@ -87,6 +87,9 @@ inputSlider.oninput = (()=>{
 })
 
 
+//import la fonction des cartes d'information
+import { createPlanetCard } from './card.js';
+
 
 
 
@@ -221,6 +224,14 @@ document.addEventListener('click', (event) => {
     }
 
     if (targetMesh && planetData) {
+
+      // Créer et afficher la carte d'information
+      if (planetData.type === 'planet') {
+        createPlanetCard(planetData);
+      }
+
+
+
       const pose = new THREE.Vector3(); // position cible
       targetMesh.getWorldPosition(pose);
 
