@@ -1,0 +1,311 @@
+[
+  {
+    "name": "Mercury",
+    "type": "planet",
+    "description": "Mercury is the closest planet to the Sun and the smallest in the Solar System. Its surface is heavily cratered and it experiences extreme temperature variations due to its lack of a true atmosphere.",
+    "texture": "./textures/2k_mercury.jpg",
+    "visual": {
+      "radius": 0.0024397
+    },
+    "physical": {
+      "mass": 3.30e23,
+      "density": 5427,
+      "gravity": 3.7,
+      "rotationPeriod": 58.65
+    },
+    "orbit": {
+      "semimajorAxis": 57.9,
+      "eccentricity": 0.2056,
+      "inclination": 7.00,
+      "longitudeOfAscendingNode": 48.33,
+      "argumentOfPeriapsis": 29.12,
+      "meanAnomaly0": 174.79,
+      "orbitalPeriod": 87.97
+    },
+    "atmosphere": {
+      "exists": true,
+      "type": "Exosphere",
+      "mainComponents": [
+        { "name": "Oxygen", "symbol": "O", "percentage": 42 },
+        { "name": "Sodium", "symbol": "Na", "percentage": 29 },
+        { "name": "Hydrogen", "symbol": "H", "percentage": 22 },
+        { "name": "Helium", "symbol": "He", "percentage": 6 }
+      ]
+    },
+    "temperature": {
+      "min": -173,
+      "max": 427,
+      "average": 167
+    }
+  },
+  {
+    "name": "Venus",
+    "type": "planet",
+    "description": "Venus is the second planet from the Sun and the hottest in the Solar System. Its thick atmosphere traps heat in a runaway greenhouse effect, making it hotter than Mercury despite being farther from the Sun.",
+    "texture": "./textures/2k_venus_surface.jpg",
+    "visual": {
+      "radius": 0.0060518
+    },
+    "physical": {
+      "mass": 4.87e24,
+      "density": 5243,
+      "gravity": 8.87,
+      "rotationPeriod": 243
+    },
+    "orbit": {
+      "semimajorAxis": 108.2,
+      "eccentricity": 0.0067,
+      "inclination": 3.39,
+      "longitudeOfAscendingNode": 76.68,
+      "argumentOfPeriapsis": 54.85,
+      "meanAnomaly0": 50.11,
+      "orbitalPeriod": 224.7
+    },
+    "atmosphere": {
+      "exists": true,
+      "type": "Dense",
+      "mainComponents": [
+        { "name": "Carbon Dioxide", "symbol": "CO₂", "percentage": 96 },
+        { "name": "Nitrogen", "symbol": "N", "percentage": 3.5 },
+        { "name": "Sulfur Dioxide", "symbol": "SO₂", "percentage": 0.5 }
+      ]
+    },
+    "temperature": {
+      "min": 437,
+      "max": 497,
+      "average": 464
+    }
+  },
+  {
+    "name": "Earth",
+    "type": "planet",
+    "description": "Earth is the third planet from the Sun and the only astronomical object known to harbor life. About 71% of its surface is covered with water, and it has a protective magnetic field and atmosphere.",
+    "texture": "./textures/2k_earth_daymap.jpg",
+    "visual": {
+      "radius": 0.006371
+    },
+    "physical": {
+      "mass": 5.97e24,
+      "density": 5514,
+      "gravity": 9.81,
+      "rotationPeriod": 1.0
+    },
+    "orbit": {
+      "semimajorAxis": 149.6,
+      "eccentricity": 0.0167,
+      "inclination": 0.00,
+      "longitudeOfAscendingNode": -11.26,
+      "argumentOfPeriapsis": 114.20,
+      "meanAnomaly0": 0,
+      "orbitalPeriod": 365.25
+    },
+    "atmosphere": {
+      "exists": true,
+      "type": "Breathable",
+      "mainComponents": [
+        { "name": "Nitrogen", "symbol": "N", "percentage": 78 },
+        { "name": "Oxygen", "symbol": "O", "percentage": 21 },
+        { "name": "Argon", "symbol": "Ar", "percentage": 0.9 },
+        { "name": "Carbon Dioxide", "symbol": "CO₂", "percentage": 0.04 }
+      ]
+    },
+    "temperature": {
+      "min": -89,
+      "max": 57,
+      "average": 15
+    }
+  },
+  {
+    "name": "Mars",
+    "type": "planet",
+    "description": "Mars is the fourth planet from the Sun and is often called the Red Planet due to its reddish appearance caused by iron oxide on its surface. It has the largest volcano and canyon in the Solar System.",
+    "texture": "./textures/2k_mars.jpg",
+    "visual": {
+      "radius": 0.0033895
+    },
+    "physical": {
+      "mass": 6.42e23,
+      "density": 3934,
+      "gravity": 3.72,
+      "rotationPeriod": 1.03
+    },
+    "orbit": {
+      "semimajorAxis": 227.9,
+      "eccentricity": 0.0934,
+      "inclination": 1.85,
+      "longitudeOfAscendingNode": 49.58,
+      "argumentOfPeriapsis": 286.50,
+      "meanAnomaly0": 19.41,
+      "orbitalPeriod": 687
+    },
+    "atmosphere": {
+      "exists": true,
+      "type": "Thin",
+      "mainComponents": [
+        { "name": "Carbon Dioxide", "symbol": "CO₂", "percentage": 95 },
+        { "name": "Nitrogen", "symbol": "N", "percentage": 2.7 },
+        { "name": "Argon", "symbol": "Ar", "percentage": 1.6 },
+        { "name": "Oxygen", "symbol": "O", "percentage": 0.13 }
+      ]
+    },
+    "temperature": {
+      "min": -125,
+      "max": 20,
+      "average": -65
+    }
+  },
+  {
+    "name": "Jupiter",
+    "type": "planet",
+    "description": "Jupiter is the largest planet in the Solar System and a gas giant. It has a Great Red Spot, a giant storm that has been raging for hundreds of years, and at least 95 known moons.",
+    "texture": "./textures/2k_jupiter.jpg",
+    "visual": {
+      "radius": 0.069911
+    },
+    "physical": {
+      "mass": 1.898e27,
+      "density": 1326,
+      "gravity": 24.79,
+      "rotationPeriod": 0.41
+    },
+    "orbit": {
+      "semimajorAxis": 778.5,
+      "eccentricity": 0.0489,
+      "inclination": 1.31,
+      "longitudeOfAscendingNode": 100.46,
+      "argumentOfPeriapsis": 273.87,
+      "meanAnomaly0": 20.02,
+      "orbitalPeriod": 4333
+    },
+    "atmosphere": {
+      "exists": true,
+      "type": "Dense",
+      "mainComponents": [
+        { "name": "Hydrogen", "symbol": "H", "percentage": 89.8 },
+        { "name": "Helium", "symbol": "He", "percentage": 10.2 },
+        { "name": "Methane", "symbol": "CH₄", "percentage": 0.3 },
+        { "name": "Ammonia", "symbol": "NH₃", "percentage": 0.026 }
+      ]
+    },
+    "temperature": {
+      "min": -163,
+      "max": -108,
+      "average": -145
+    }
+  },
+  {
+    "name": "Saturn",
+    "type": "planet",
+    "description": "Saturn is the sixth planet from the Sun and is famous for its stunning ring system made of ice and rock. It is the second-largest planet and has at least 146 known moons.",
+    "texture": "./textures/2k_saturn.jpg",
+    "visual": {
+      "radius": 0.058232
+    },
+    "physical": {
+      "mass": 5.683e26,
+      "density": 687,
+      "gravity": 10.44,
+      "rotationPeriod": 0.45
+    },
+    "orbit": {
+      "semimajorAxis": 1432,
+      "eccentricity": 0.0565,
+      "inclination": 2.49,
+      "longitudeOfAscendingNode": 113.64,
+      "argumentOfPeriapsis": 339.39,
+      "meanAnomaly0": 317.02,
+      "orbitalPeriod": 10759
+    },
+    "atmosphere": {
+      "exists": true,
+      "type": "Dense",
+      "mainComponents": [
+        { "name": "Hydrogen", "symbol": "H", "percentage": 96.3 },
+        { "name": "Helium", "symbol": "He", "percentage": 3.25 },
+        { "name": "Methane", "symbol": "CH₄", "percentage": 0.45 },
+        { "name": "Ammonia", "symbol": "NH₃", "percentage": 0.0125 }
+      ]
+    },
+    "temperature": {
+      "min": -189,
+      "max": -122,
+      "average": -178
+    }
+  },
+  {
+    "name": "Uranus",
+    "type": "planet",
+    "description": "Uranus is the seventh planet from the Sun and an ice giant. It has a unique sideways rotation, with its axis tilted at 98 degrees. It has faint rings and 28 known moons.",
+    "texture": "./textures/2k_uranus.jpg",
+    "visual": {
+      "radius": 0.025362
+    },
+    "physical": {
+      "mass": 8.681e25,
+      "density": 1270,
+      "gravity": 8.87,
+      "rotationPeriod": 0.72
+    },
+    "orbit": {
+      "semimajorAxis": 2867,
+      "eccentricity": 0.0457,
+      "inclination": 0.77,
+      "longitudeOfAscendingNode": 74.01,
+      "argumentOfPeriapsis": 96.99,
+      "meanAnomaly0": 142.24,
+      "orbitalPeriod": 30687
+    },
+    "atmosphere": {
+      "exists": true,
+      "type": "Ice Giant",
+      "mainComponents": [
+        { "name": "Hydrogen", "symbol": "H", "percentage": 82.5 },
+        { "name": "Helium", "symbol": "He", "percentage": 15.2 },
+        { "name": "Methane", "symbol": "CH₄", "percentage": 2.3 }
+      ]
+    },
+    "temperature": {
+      "min": -224,
+      "max": -197,
+      "average": -216
+    }
+  },
+  {
+    "name": "Neptune",
+    "type": "planet",
+    "description": "Neptune is the eighth and farthest planet from the Sun. It is an ice giant with the strongest winds in the Solar System, reaching speeds of 2,100 km/h. It has 16 known moons.",
+    "texture": "./textures/2k_neptune.jpg",
+    "visual": {
+      "radius": 0.024622
+    },
+    "physical": {
+      "mass": 1.024e26,
+      "density": 1638,
+      "gravity": 11.15,
+      "rotationPeriod": 0.67
+    },
+    "orbit": {
+      "semimajorAxis": 4515,
+      "eccentricity": 0.0113,
+      "inclination": 1.77,
+      "longitudeOfAscendingNode": 131.78,
+      "argumentOfPeriapsis": 273.19,
+      "meanAnomaly0": 256.23,
+      "orbitalPeriod": 60190
+    },
+    "atmosphere": {
+      "exists": true,
+      "type": "Ice Giant",
+      "mainComponents": [
+        { "name": "Hydrogen", "symbol": "H", "percentage": 80 },
+        { "name": "Helium", "symbol": "He", "percentage": 19 },
+        { "name": "Methane", "symbol": "CH₄", "percentage": 1.5 }
+      ]
+    },
+    "temperature": {
+      "min": -223,
+      "max": -201,
+      "average": -214
+    }
+  }
+]

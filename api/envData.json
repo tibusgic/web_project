@@ -1,0 +1,17 @@
+    
+{
+    "ambientLight" : {
+        "color": "#ffffff",
+        "intensity": 0.2
+    },
+    "camera" : {
+        "fov": 60,
+        "near": 0.1,
+        "far": 100000
+    },
+    "sky" : {
+        "quantity" : 50000,
+        "minDistance" : 4500,
+        "maxDistance" : 12000
+    }
+}
