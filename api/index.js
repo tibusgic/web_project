@@ -12,11 +12,11 @@ const port = process.env.PORT || 5175;
 // setting up cross-origin policy
 const cors = require('cors');
 app.use(cors({
-  origin: `http://localhost:${port}`,
+  origin: `http://localhost:5173`,
 }));
 
 
-// charger les planètes depuis un fichier JSON
+// charger les planètes
 let systemeData;
 
 try {
@@ -51,6 +51,28 @@ app.get('/systemeData', (req, res) => {
 //route get EnvData
 app.get('/envData', (req, res) => {
     res.json(envData);
+});
+
+
+//route post update systemeData
+app.post('/systemeData', (req, res) => {
+    const newData = req.body;
+    if (!newData || Object.keys(newData).length === 0) {
+        return res.status(400).send('Données invalides.');
+    }
+    systemeData = newData;
+    res.send('Données du système mises à jour avec succès.');
+});
+
+
+//route post update envData
+app.post('/envData', (req, res) => {
+    const newData = req.body;
+    if (!newData || Object.keys(newData).length === 0) {
+        return res.status(400).send('Données invalides.');
+    }
+    envData = newData;
+    res.send('Données de l\'environnement mises à jour avec succès.');
 });
 
 

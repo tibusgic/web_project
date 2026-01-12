@@ -23,14 +23,30 @@ labelRenderer.domElement.querySelectorAll('.name-tag').forEach(tag => {
 });
 document.body.appendChild(labelRenderer.domElement);
 
+
+// charger variable d'environnement depuis le serveur
+
+let envData = {};
+try {
+  const reponse = await fetch('http://localhost:5175/envData');
+  envData = await reponse.json();
+  console.log('Données d\'environnement chargées avec succès.');
+} catch (err) {
+  console.error('Erreur lors du chargement des données d\'environnement :', err);
+}
+
+console.log(envData);
+
+
 // Scène principale
 const scene = new THREE.Scene();
 
-const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
+const ambientLight = new THREE.AmbientLight(envData.ambientLight.color, envData.ambientLight.intensity);
+scene.add(ambientLight);
 scene.add(ambientLight);
 
 // Caméra
-const camera = new THREE.PerspectiveCamera(70, WIDTH / HEIGHT, 0.1, 100000);
+const camera = new THREE.PerspectiveCamera(envData.camera.fov, WIDTH / HEIGHT, envData.camera.near, envData.camera.far);
 camera.position.z = 50;
 scene.add(camera);
 
@@ -86,6 +102,16 @@ inputSlider.oninput = (()=>{
   });
 })
 
+//creer button config
+const configDiv = document.createElement('div');
+configDiv.className = 'config';
+configDiv.innerHTML = `<button id="btn-config" onclick="window.location.href='./config/config.html'"><i class="bi bi-gear-fill"></i></button>`;
+configDiv.style.position = 'absolute';
+configDiv.style.bottom = '20px';
+configDiv.style.left = 'calc(50% + 220px)';
+configDiv.style.zIndex = '1000';
+document.body.appendChild(configDiv);
+
 
 //import la fonction des cartes d'information
 import { createPlanetCard } from './card.js';
@@ -98,7 +124,7 @@ import { createPlanetCard } from './card.js';
 
 // charger les planètes depuis un fichier JSON
 const body = []; //liste des corps célestes
-fetch('./celestialBody.json')
+fetch('http://localhost:5175/systemeData')
     .then(response => response.json())
     .then(data => {
         data.forEach(planetData => {
@@ -125,10 +151,10 @@ scene.background = new THREE.Color(0x000000);
 
 // creer star sky avec particules
 const starGeometry = new THREE.BufferGeometry();
-const starCount = 8000;
+const starCount = envData.sky.quantity;
 const starPositions = [];
-const minDistance = 4500;
-const maxDistance = 12000;
+const minDistance = envData.sky.minDistance;
+const maxDistance = envData.sky.maxDistance;
 for (let i = 0; i < starCount; i++) {
   const range = maxDistance * 2;
   const x = (Math.random() - 0.5) * range;

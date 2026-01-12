@@ -390,6 +390,41 @@ input[type="checkbox"]:hover {
     transform: rotate(90deg);
 }
 
+/* Bouton Remove Component */
+.btn-remove-component {
+    background: transparent;
+    border: 1px solid rgba(255, 60, 60, 0.5);
+    color: #ff3c3c;
+    padding: 8px 10px;
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: auto;
+}
+
+.btn-remove-component:hover {
+    background: rgba(255, 60, 60, 0.2);
+    border-color: #ff3c3c;
+    box-shadow: 0 0 15px rgba(255, 60, 60, 0.4);
+}
+
+.btn-remove-component:active {
+    transform: scale(0.95);
+}
+
+.btn-remove-component i {
+    font-size: 14px;
+    transition: transform 0.3s ease;
+}
+
+.btn-remove-component:hover i {
+    transform: scale(1.2);
+}
+
 /* Grilles pour certaines sections */
 .celestialbody-physical,
 .celestialbody-orbit,

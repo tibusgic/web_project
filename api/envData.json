@@ -10,7 +10,7 @@
         "far": 100000
     },
     "sky" : {
-        "quantity" : 50000,
+        "quantity" : 8000,
         "minDistance" : 4500,
         "maxDistance" : 12000
     }
