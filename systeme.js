@@ -44,7 +44,7 @@ scene.add(sun);
 
 
 
-// Créer le curseur fixe à l'écran
+// Créer le curseur fixe à l'écran pour la taille
 const sliderDiv = document.createElement('div');
 sliderDiv.className = 'range';
 sliderDiv.innerHTML = `
@@ -82,7 +82,47 @@ inputSlider.oninput = (()=>{
   });
 })
 
+// Créer le curseur fixe à l'écran pour le temps
+const timeSliderDiv = document.createElement('div');
+timeSliderDiv.className = 'range';
 
+timeSliderDiv.style.position = 'absolute';
+timeSliderDiv.style.bottom = '20px';
+timeSliderDiv.style.left = '20px';
+timeSliderDiv.style.zIndex = '1000';
+timeSliderDiv.style.transform = 'scale(0.9)';
+
+timeSliderDiv.innerHTML = `
+  <div class="SliderValue">
+    <span>1</span>
+  </div>
+  <div class="field">
+    <div class="value left">PASSE</div>
+    <input type="range" min="-100" max="100" step="1" value="1" class="slider" id="timeRange" />
+    <div class="value right">FUTUR</div>
+  </div>
+`;
+document.body.appendChild(timeSliderDiv);
+
+// Logique du slider temporel
+const timeValLabel = timeSliderDiv.querySelector('.SliderValue span');
+const timeInput = timeSliderDiv.querySelector('#timeRange');
+
+timeInput.oninput = (() => {
+  let val = parseFloat(timeInput.value);
+  
+  // Calcul de la vitesse temporelle en utilisant une fonction puissance pour une meilleure granularité
+  let calculatedSpeed = val * val * val;
+
+  if (val === 0) calculatedSpeed = 0; // Pause
+
+  // Mise à jour de la variable globale utilisée dans render()
+  timeScale = calculatedSpeed;
+
+  // Met à jour l'affichage de la valeur
+  let percentage = ((val + 100) / 200) * 100;
+  timeValLabel.style.left = `calc(${percentage}% + (${8 - percentage * 0.16}px))`;
+});
 
 //import la fonction des cartes d'information
 import { createPlanetCard } from './card.js';
@@ -257,9 +297,11 @@ document.addEventListener('click', (event) => {
 
 // Initialisation de l'horloge
 const clock = new THREE.Clock(); // Pour la gestion du temps
-const timeScale = 100000; // Facteur de vitesse temporelle
-const rotationSpeed = 1; // Vitesse de rotation
-const revolutionSpeed = 1; // Vitesse orbitale
+
+// Facteurs de vitesse
+let timeScale = 1; // Facteur de vitesse temporelle
+let rotationSpeed = 1; // Vitesse de rotation
+let revolutionSpeed = 1; // Vitesse de revolution
 
 // Rendu
 function render() {
