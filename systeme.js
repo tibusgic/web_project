@@ -2,7 +2,7 @@ import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import { CSS2DRenderer } from 'three/examples/jsm/renderers/CSS2DRenderer.js'
 import * as STAR from './star.js';
-import * as Orbit from './Orbit.js';
+import { addPlanetWithOrbit } from './celestialBody.js';
 
 const WIDTH = window.innerWidth;
 const HEIGHT = window.innerHeight;
@@ -96,8 +96,8 @@ fetch('./systemData.json')
   .then(data => {
     data.forEach(planetData => {
       //générer la planète et son orbite
-      const res = Orbit.addPlanetWithOrbit(scene, planetData); 
-      body.push(res);      
+      const res = addPlanetWithOrbit(scene, planetData); 
+      body.push(res);
     }); 
     //échelle initiale après le chargement
     inputSlider.dispatchEvent(new Event('input'));
@@ -258,47 +258,46 @@ document.addEventListener('click', (event) => {
 
 
 // Initialisation de l'horloge
-const clock = new THREE.Clock();
-const timeScale = 0.5;
-
-
+const clock = new THREE.Clock(); // Pour la gestion du temps
+const timeScale = 1; // Facteur de vitesse temporelle
+const orbitalSpeed = 1; // Vitesse orbitale
 
 // Rendu
 function render() {
   requestAnimationFrame(render);
   
   // Gestion du temps
-  const delta = clock.getDelta();
-  const elapsedTime = clock.getElapsedTime() * timeScale;
+  const delta = clock.getDelta(); // Temps écoulé depuis le dernier frame
+  const elapsedTime = clock.getElapsedTime() * timeScale; 
 
   // Mise à jour de la position et rotation des planètes
-  // On parcourt la liste des planètes une par une avec une boucle classique
+  // Parcours la liste des planètes une par une avec une boucle classique
   for (let i = 0; i < body.length; i++) {
     let obj = body[i];
 
-    // On vérifie que la planète a bien ses données et son objet 3D
+    // Vérifie que la planète a bien ses données et son objet 3D
     if (obj.data != null && obj.mesh != null) {
       
       let data = obj.data;
       let mesh = obj.mesh;
 
-      // --- Partie 1 : La rotation sur elle-même ---
+      // --- Partie 1 : Rotation ---
       
       // Période de rotation (en jours)
       let rotP = data.physical.rotationPeriod;
       
-      // On calcule la vitesse (plus la période est petite, plus ça tourne vite)
-      let omega = (1 / rotP) * 2;
+      // Calcul de la vitesse omega
+      let omega = (1 / rotP) * 2; // Facteur 2 pour ajuster la vitesse de rotation
       
-      // On ajoute la vitesse à la rotation actuelle
-      mesh.rotation.y = mesh.rotation.y + (omega * delta);
+      // Ajoute la vitesse à la rotation actuelle
+      mesh.rotation.y = mesh.rotation.y + (omega * delta); // delta pour la fluidité
 
 
-      // --- Partie 2 : Le déplacement autour du soleil ---
+      // --- Partie 2 : Révolution ---
 
       let orbit = data.orbit;
 
-      // Variables mathématiques (Orbital Elements)
+      // Variables mathématiques
       let a = orbit.semimajorAxis;    // Demi-grand axe
       let e = orbit.eccentricity;     // Excentricité
       let T = orbit.orbitalPeriod;    // Période orbitale
@@ -309,25 +308,25 @@ function render() {
       // Mouvement moyen n (vitesse angulaire moyenne)
       let n = (2 * Math.PI) / T;
 
-      // t représente le temps simulé
-      // (On multiplie par 50 pour que ça aille plus vite à l'écran)
-      let t = elapsedTime * 50;
+      // Temps simulé t (en jours)
+      let t = elapsedTime * orbitalSpeed; // Ajusté par la vitesse orbitale
 
       // Anomalie Moyenne M
       let M = M0 + (n * t);
 
-      // Anomalie Excentrique E (Approximation : E = M + e * sin(M))
+      // Anomalie Excentrique E (approximation)
       let E = M + e * Math.sin(M);
 
       // Calcul de la coordonnée x
       let x = a * (Math.cos(E) - e);
 
-      // Calcul de la coordonnée z
-      // On calcule d'abord le facteur de l'axe mineur
+      // Calcul du facteur de l'axe mineur
       let factor = Math.sqrt(1 - (e * e));
+
+      // Calcul de la coordonnée z
       let z = a * factor * Math.sin(E);
 
-      // On applique les nouvelles positions (x, 0, z)
+      // Nouvelles positions (x, 0, z)
       mesh.position.set(x, 0, z);
     }
   }
