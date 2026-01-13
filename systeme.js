@@ -255,12 +255,11 @@ document.addEventListener('click', (event) => {
   }
 });
 
-
-
 // Initialisation de l'horloge
 const clock = new THREE.Clock(); // Pour la gestion du temps
-const timeScale = 1; // Facteur de vitesse temporelle
-const orbitalSpeed = 1; // Vitesse orbitale
+const timeScale = 100000; // Facteur de vitesse temporelle
+const rotationSpeed = 1; // Vitesse de rotation
+const revolutionSpeed = 1; // Vitesse orbitale
 
 // Rendu
 function render() {
@@ -268,7 +267,7 @@ function render() {
   
   // Gestion du temps
   const delta = clock.getDelta(); // Temps écoulé depuis le dernier frame
-  const elapsedTime = clock.getElapsedTime() * timeScale; 
+  const elapsedTime = clock.getElapsedTime(); // Temps total depuis le début 
 
   // Mise à jour de la position et rotation des planètes
   // Parcours la liste des planètes une par une avec une boucle classique
@@ -283,15 +282,15 @@ function render() {
 
       // --- Partie 1 : Rotation ---
       
-      // Période de rotation (en jours)
+      // Période de rotation (en secondes)
       let rotP = data.physical.rotationPeriod;
       
-      // Calcul de la vitesse omega
-      let omega = (1 / rotP) * 2; // Facteur 2 pour ajuster la vitesse de rotation
+      // Vitesse angulaire de base (en rad/s)
+      let omega = (2 * Math.PI) / rotP;
       
-      // Ajoute la vitesse à la rotation actuelle
-      mesh.rotation.y = mesh.rotation.y + (omega * delta); // delta pour la fluidité
-
+      // Calcul du pas de rotation
+      let rotationStep = omega * rotationSpeed * timeScale * delta; // Ajusté par le facteur de temps et la vitesse de rotation
+      mesh.rotation.y += rotationStep;
 
       // --- Partie 2 : Révolution ---
 
@@ -308,23 +307,24 @@ function render() {
       // Mouvement moyen n (vitesse angulaire moyenne)
       let n = (2 * Math.PI) / T;
 
-      // Temps simulé t (en jours)
-      let t = elapsedTime * orbitalSpeed; // Ajusté par la vitesse orbitale
+      // Temps simulé t
+      let t = elapsedTime * revolutionSpeed * timeScale; // Ajusté par le facteur de temps et la vitesse de révolution
 
       // Anomalie Moyenne M
       let M = M0 + (n * t);
 
       // Anomalie Excentrique E (approximation)
-      let E = M + e * Math.sin(M);
+      let E = M;
+      // 5 itérations pour une haute précision visuelle
+      for (let k = 0; k < 5; k++) {
+          E = E - (E - e * Math.sin(E) - M) / (1 - e * Math.cos(E));
+      }
 
       // Calcul de la coordonnée x
       let x = a * (Math.cos(E) - e);
 
-      // Calcul du facteur de l'axe mineur
-      let factor = Math.sqrt(1 - (e * e));
-
       // Calcul de la coordonnée z
-      let z = a * factor * Math.sin(E);
+      let z = a * Math.sqrt(1 - e * e) * Math.sin(E);
 
       // Nouvelles positions (x, 0, z)
       mesh.position.set(x, 0, z);
