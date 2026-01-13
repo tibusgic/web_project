@@ -98,7 +98,7 @@ timeSliderDiv.innerHTML = `
   </div>
   <div class="field">
     <div class="value left">PASSE</div>
-    <input type="range" min="-100" max="100" step="1" value="1" class="slider" id="timeRange" />
+    <input type="range" min="-10" max="10" step="1" value="1" class="slider" id="timeRange" />
     <div class="value right">FUTUR</div>
   </div>
 `;
@@ -112,8 +112,8 @@ timeInput.oninput = (() => {
   let val = parseFloat(timeInput.value);
   
   // Calcul de la vitesse temporelle en utilisant une fonction puissance pour une meilleure granularité
-  let calculatedSpeed = val * val * val;
-
+  let calculatedSpeed = 10**(Math.abs(val)); // Base 10
+  if (val < 0) calculatedSpeed = -calculatedSpeed; //passé
   if (val === 0) calculatedSpeed = 0; // Pause
 
   // Mise à jour de la variable globale utilisée dans render()
