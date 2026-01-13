@@ -120,7 +120,7 @@ timeInput.oninput = (() => {
   timeScale = calculatedSpeed;
 
   // Met à jour l'affichage de la valeur
-  let percentage = ((val + 100) / 200) * 100;
+  let percentage = ((val + 10) / 20) * 100;
   timeValLabel.style.left = `calc(${percentage}% + (${8 - percentage * 0.16}px))`;
 });
 
