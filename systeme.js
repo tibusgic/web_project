@@ -261,7 +261,14 @@ document.addEventListener('click', (event) => {
 const clock = new THREE.Clock();
 const timeScale = 0.5;
 
+// vitesse de simulation du temps
+const speed = 50;
 
+// --- Calcul du temps réel ---
+// On calcule le temps écoulé depuis le 1er janvier 2000
+const now = new Date();
+const start = new Date('2000-01-01T00:00:00Z');
+const daysSinceJ2000 = (now - start) / (1000 * 60 * 60 * 24); // en jours
 
 // Rendu
 function render() {
@@ -282,17 +289,30 @@ function render() {
       let data = obj.data;
       let mesh = obj.mesh;
 
+      // t représente le temps simulé et commence à partir de la date et heure au moment du chargement
+      // (On multiplie par 50 pour que ça aille plus vite à l'écran)
+      let t = daysSinceJ2000 + (elapsedTime * speed);
+
       // --- Partie 1 : La rotation sur elle-même ---
       
       // Période de rotation (en jours)
       let rotP = data.physical.rotationPeriod;
       
-      // On calcule la vitesse (plus la période est petite, plus ça tourne vite)
-      let omega = (1 / rotP) * 2;
+      // Calcul de l'angle de rotation initial
+      // Formule : (Jours écoulés / Période) * 2 PI
+      let rotAngl = (t / rotPeriodInDays) * (Math.PI * 2);
       
-      // On ajoute la vitesse à la rotation actuelle
-      mesh.rotation.y = mesh.rotation.y + (omega * delta);
+      // On force la rotation comme faire un .set()
+      // Le modulo % (Math.PI * 2) garde l'angle propre entre 0 et 360°
+      mesh.rotation.y = rotationAngle % (Math.PI * 2);
 
+      // --- Partie intermédiaire : L'inclinaison axiale ---
+      // Pour que la Terre penche correctement (saisons)
+      // Actuellement cette variable n'existe pas donc on vérifie son existence pour ne pas avoir d'erreur
+      if (data.physical.obliquity) {
+          // On penche l'axe Z (ou X selon ton modèle)
+          mesh.rotation.z = data.physical.obliquity * (Math.PI / 180); 
+      }
 
       // --- Partie 2 : Le déplacement autour du soleil ---
 
@@ -308,10 +328,6 @@ function render() {
 
       // Mouvement moyen n (vitesse angulaire moyenne)
       let n = (2 * Math.PI) / T;
-
-      // t représente le temps simulé
-      // (On multiplie par 50 pour que ça aille plus vite à l'écran)
-      let t = elapsedTime * 50;
 
       // Anomalie Moyenne M
       let M = M0 + (n * t);
