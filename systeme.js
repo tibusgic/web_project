@@ -131,7 +131,7 @@ import { createPlanetCard } from './card.js';
 
 // charger les planètes depuis un fichier JSON
 const body = []; //liste des corps célestes
-fetch('./systemData.json')
+fetch('./celestialBody.json')
   .then(response => response.json())
   .then(data => {
     data.forEach(planetData => {
