@@ -20,7 +20,7 @@ function generateOrbit(a, e) {
     // a = demi-grand axe (semimajorAxis)
     // e = excentricité (eccentricity)
     const points = [];
-    const segments = 256; // Plus le chiffre est haut, plus le cercle est lisse
+    const segments = 1024; // Plus le chiffre est haut, plus le cercle est lisse
 
     for (let i = 0; i <= segments; i++) {
         // Angle de 0 à 360 degrés (en radians)
