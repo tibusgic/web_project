@@ -136,8 +136,7 @@ fetch('./systemData.json')
   .then(data => {
     data.forEach(planetData => {
       //générer la planète et son orbite
-      const res = addPlanetWithOrbit(scene, planetData); 
-      body.push(res);
+      addPlanetWithOrbit(scene, planetData, body); 
     }); 
     //échelle initiale après le chargement
     inputSlider.dispatchEvent(new Event('input'));
@@ -317,10 +316,11 @@ function render() {
     let obj = body[i];
 
     // Vérifie que la planète a bien ses données et son objet 3D
-    if (obj.data != null && obj.mesh != null) {
+    if (obj.data != null && obj.mesh != null && obj.system != null) {
       
       let data = obj.data;
       let mesh = obj.mesh;
+      let system = obj.system;
 
       // --- Partie 1 : Rotation ---
       
@@ -369,7 +369,7 @@ function render() {
       let z = a * Math.sqrt(1 - e * e) * Math.sin(E);
 
       // Nouvelles positions (x, 0, z)
-      mesh.position.set(x, 0, z);
+      system.position.set(x, 0, z)
     }
   }
 
