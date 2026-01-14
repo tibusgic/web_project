@@ -33,7 +33,7 @@ scene.add(ambientLight);
 
 
 // Caméra
-const camera = new THREE.PerspectiveCamera(70, WIDTH / HEIGHT, 0.1, 100000);
+const camera = new THREE.PerspectiveCamera(70, WIDTH / HEIGHT, 0.0001, 100000);
 camera.position.z = 50;
 scene.add(camera);
 
@@ -77,7 +77,8 @@ inputSlider.oninput = (()=>{
     if (object.userData.celestialBody) {
       // Utiliser la taille originale stockée
       const originalScale = object.userData.originalScale || 1;
-      object.scale.setScalar(originalScale * value * 30);
+      // Les planètes grossissent 30x plus vite que le soleil, mais à 1x tout est à l'échelle 1
+      object.scale.setScalar(originalScale * (1 + (value - 1) * 30));
     }
   });
 })
@@ -200,7 +201,7 @@ controls.rotateSpeed = 0.5;
 // Zoom adapté
 controls.enableZoom = true;
 controls.zoomSpeed = 1.2;
-controls.minDistance = 1;  
+controls.minDistance = 0.01;  
 controls.maxDistance = 2000;
 
 
@@ -251,6 +252,8 @@ document.addEventListener('click', (event) => {
     let targetMesh = null;
     let planetData = null;
 
+    console.log(clickedElement.userData);
+
     // Récupérer les bonnes données selon le type (planète ou étoile)
     if (clickedElement.userData) {
       targetMesh = clickedElement.userData.mesh;
@@ -260,7 +263,7 @@ document.addEventListener('click', (event) => {
     if (targetMesh && planetData) {
 
       // Créer et afficher la carte d'information
-      if (planetData.type === 'planet') {
+      if (planetData.type === 'planet' || planetData.type === 'moon') {
         createPlanetCard(planetData);
       }
 

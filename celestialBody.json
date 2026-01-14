@@ -120,17 +120,33 @@
       {
         "name": "Moon",
         "type": "moon",
+        "description": "The Moon is Earth's only natural satellite. It is the fifth largest moon in the Solar System and the largest relative to its planet. Its surface is covered with impact craters and volcanic plains called maria.",
         "texture": "./textures/2k_moon.jpg",
         "visual": { "radius": 0.001737 },
-        "physical": { "rotationPeriod": 2360592 }, 
+        "physical": {
+          "mass": 7.342e22,
+          "density": 3344,
+          "gravity": 1.62,
+          "rotationPeriod": 2360592
+        },
         "orbit": {
           "semimajorAxis": 0.3844,
           "eccentricity": 0.0549,
-          "inclination": 5.14,
+          "inclination": 5.145,
           "longitudeOfAscendingNode": 125.08,
           "argumentOfPeriapsis": 318.15,
           "meanAnomaly0": 135.27,
           "orbitalPeriod": 2360592
+        },
+        "atmosphere": {
+          "exists": false,
+          "type": "None",
+          "mainComponents": []
+        },
+        "temperature": {
+          "min": -173,
+          "max": 127,
+          "average": -23
         }
       }
     ]
@@ -177,33 +193,65 @@
       {
         "name": "Phobos",
         "type": "moon",
+        "description": "Phobos is the larger and innermost of Mars' two moons. It is one of the smallest moons in the Solar System and is heavily cratered. It orbits so close to Mars that it will eventually crash into the planet or break apart.",
         "texture": "./textures/2k_phobos.jpg",
-        "visual": { "radius": 0.000011 }, 
-        "physical": { "rotationPeriod": 27553 },
+        "visual": { "radius": 0.000011 },
+        "physical": {
+          "mass": 1.0659e16,
+          "density": 1876,
+          "gravity": 0.0057,
+          "rotationPeriod": 27553
+        },
         "orbit": {
           "semimajorAxis": 0.009376,
           "eccentricity": 0.0151,
           "inclination": 1.093,
-          "longitudeOfAscendingNode": 0,
-          "argumentOfPeriapsis": 0,
-          "meanAnomaly0": 0,
+          "longitudeOfAscendingNode": 49.24,
+          "argumentOfPeriapsis": 150.057,
+          "meanAnomaly0": 91.059,
           "orbitalPeriod": 27553
+        },
+        "atmosphere": {
+          "exists": false,
+          "type": "None",
+          "mainComponents": []
+        },
+        "temperature": {
+          "min": -112,
+          "max": -4,
+          "average": -40
         }
       },
       {
         "name": "Deimos",
         "type": "moon",
+        "description": "Deimos is the smaller and outermost of Mars' two moons. It has a smooth appearance due to regolith filling its craters. It is slowly spiraling away from Mars.",
         "texture": "./textures/2k_deimos.jpg",
         "visual": { "radius": 0.000006 },
-        "physical": { "rotationPeriod": 109000 },
+        "physical": {
+          "mass": 1.4762e15,
+          "density": 1471,
+          "gravity": 0.003,
+          "rotationPeriod": 109074
+        },
         "orbit": {
           "semimajorAxis": 0.023463,
-          "eccentricity": 0.0002,
+          "eccentricity": 0.00033,
           "inclination": 0.93,
-          "longitudeOfAscendingNode": 0,
-          "argumentOfPeriapsis": 0,
-          "meanAnomaly0": 0,
-          "orbitalPeriod": 109000
+          "longitudeOfAscendingNode": 79.41,
+          "argumentOfPeriapsis": 290.496,
+          "meanAnomaly0": 325.329,
+          "orbitalPeriod": 109074
+        },
+        "atmosphere": {
+          "exists": false,
+          "type": "None",
+          "mainComponents": []
+        },
+        "temperature": {
+          "min": -112,
+          "max": -4,
+          "average": -40
         }
       }
     ]
@@ -250,65 +298,139 @@
       {
         "name": "Io",
         "type": "moon",
+        "description": "Io is the innermost of Jupiter's four Galilean moons and the most volcanically active body in the Solar System. Its surface is covered with sulfur and sulfur dioxide, giving it a distinctive yellow-orange appearance.",
         "texture": "./textures/2k_io.jpg",
         "visual": { "radius": 0.001821 },
-        "physical": { "rotationPeriod": 152853 },
+        "physical": {
+          "mass": 8.9319e22,
+          "density": 3528,
+          "gravity": 1.796,
+          "rotationPeriod": 152853
+        },
         "orbit": {
           "semimajorAxis": 0.4217,
           "eccentricity": 0.0041,
           "inclination": 0.05,
-          "longitudeOfAscendingNode": 0,
-          "argumentOfPeriapsis": 0,
-          "meanAnomaly0": 0,
+          "longitudeOfAscendingNode": 43.977,
+          "argumentOfPeriapsis": 84.129,
+          "meanAnomaly0": 342.021,
           "orbitalPeriod": 152853
+        },
+        "atmosphere": {
+          "exists": true,
+          "type": "Thin",
+          "mainComponents": [
+            { "name": "Sulfur Dioxide", "symbol": "SO₂", "percentage": 90 },
+            { "name": "Sulfur Monoxide", "symbol": "SO", "percentage": 10 }
+          ]
+        },
+        "temperature": {
+          "min": -183,
+          "max": -143,
+          "average": -163
         }
       },
       {
         "name": "Europa",
         "type": "moon",
+        "description": "Europa is the smallest of Jupiter's four Galilean moons. Its icy surface hides a global subsurface ocean that may contain more than twice the water of Earth's oceans, making it a prime candidate for extraterrestrial life.",
         "texture": "./textures/2k_europa.jpg",
         "visual": { "radius": 0.001560 },
-        "physical": { "rotationPeriod": 306822 },
+        "physical": {
+          "mass": 4.7998e22,
+          "density": 3013,
+          "gravity": 1.314,
+          "rotationPeriod": 306822
+        },
         "orbit": {
           "semimajorAxis": 0.6710,
           "eccentricity": 0.0094,
           "inclination": 0.47,
-          "longitudeOfAscendingNode": 0,
-          "argumentOfPeriapsis": 0,
-          "meanAnomaly0": 0,
+          "longitudeOfAscendingNode": 219.106,
+          "argumentOfPeriapsis": 88.97,
+          "meanAnomaly0": 171.016,
           "orbitalPeriod": 306822
+        },
+        "atmosphere": {
+          "exists": true,
+          "type": "Exosphere",
+          "mainComponents": [
+            { "name": "Oxygen", "symbol": "O₂", "percentage": 100 }
+          ]
+        },
+        "temperature": {
+          "min": -223,
+          "max": -148,
+          "average": -171
         }
       },
       {
         "name": "Ganymede",
         "type": "moon",
+        "description": "Ganymede is the largest moon in the Solar System, even larger than Mercury. It is the only moon known to have its own magnetic field and likely has a subsurface ocean.",
         "texture": "./textures/2k_ganymede.jpg",
         "visual": { "radius": 0.002634 },
-        "physical": { "rotationPeriod": 618153 },
+        "physical": {
+          "mass": 1.4819e23,
+          "density": 1936,
+          "gravity": 1.428,
+          "rotationPeriod": 618153
+        },
         "orbit": {
           "semimajorAxis": 1.0704,
           "eccentricity": 0.0013,
           "inclination": 0.20,
-          "longitudeOfAscendingNode": 0,
-          "argumentOfPeriapsis": 0,
-          "meanAnomaly0": 0,
+          "longitudeOfAscendingNode": 63.552,
+          "argumentOfPeriapsis": 192.417,
+          "meanAnomaly0": 317.54,
           "orbitalPeriod": 618153
+        },
+        "atmosphere": {
+          "exists": true,
+          "type": "Exosphere",
+          "mainComponents": [
+            { "name": "Oxygen", "symbol": "O₂", "percentage": 100 }
+          ]
+        },
+        "temperature": {
+          "min": -193,
+          "max": -113,
+          "average": -163
         }
       },
       {
         "name": "Callisto",
         "type": "moon",
+        "description": "Callisto is the second-largest moon of Jupiter and the third-largest moon in the Solar System. Its ancient, heavily cratered surface is one of the oldest in the Solar System.",
         "texture": "./textures/2k_callisto.jpg",
         "visual": { "radius": 0.002410 },
-        "physical": { "rotationPeriod": 1441931 },
+        "physical": {
+          "mass": 1.0759e23,
+          "density": 1834,
+          "gravity": 1.235,
+          "rotationPeriod": 1441931
+        },
         "orbit": {
           "semimajorAxis": 1.8827,
           "eccentricity": 0.0074,
-          "inclination": 0.20,
-          "longitudeOfAscendingNode": 0,
-          "argumentOfPeriapsis": 0,
-          "meanAnomaly0": 0,
+          "inclination": 0.192,
+          "longitudeOfAscendingNode": 298.848,
+          "argumentOfPeriapsis": 52.643,
+          "meanAnomaly0": 181.408,
           "orbitalPeriod": 1441931
+        },
+        "atmosphere": {
+          "exists": true,
+          "type": "Exosphere",
+          "mainComponents": [
+            { "name": "Carbon Dioxide", "symbol": "CO₂", "percentage": 99 },
+            { "name": "Oxygen", "symbol": "O₂", "percentage": 1 }
+          ]
+        },
+        "temperature": {
+          "min": -193,
+          "max": -108,
+          "average": -139
         }
       }
     ]
@@ -355,33 +477,74 @@
       {
         "name": "Titan",
         "type": "moon",
+        "description": "Titan is Saturn's largest moon and the second-largest moon in the Solar System. It is the only moon with a dense atmosphere and the only place besides Earth with stable surface liquid (methane lakes).",
         "texture": "./textures/2k_titan.jpg",
         "visual": { "radius": 0.002574 },
-        "physical": { "rotationPeriod": 1377648 },
+        "physical": {
+          "mass": 1.3452e23,
+          "density": 1880,
+          "gravity": 1.352,
+          "rotationPeriod": 1377648
+        },
         "orbit": {
           "semimajorAxis": 1.2218,
           "eccentricity": 0.0288,
           "inclination": 0.348,
-          "longitudeOfAscendingNode": 0,
-          "argumentOfPeriapsis": 0,
-          "meanAnomaly0": 0,
+          "longitudeOfAscendingNode": 28.06,
+          "argumentOfPeriapsis": 180.532,
+          "meanAnomaly0": 163.31,
           "orbitalPeriod": 1377648
+        },
+        "atmosphere": {
+          "exists": true,
+          "type": "Dense",
+          "mainComponents": [
+            { "name": "Nitrogen", "symbol": "N₂", "percentage": 94.2 },
+            { "name": "Methane", "symbol": "CH₄", "percentage": 5.65 },
+            { "name": "Hydrogen", "symbol": "H₂", "percentage": 0.1 }
+          ]
+        },
+        "temperature": {
+          "min": -179,
+          "max": -179,
+          "average": -179
         }
       },
       {
         "name": "Enceladus",
         "type": "moon",
+        "description": "Enceladus is a small icy moon of Saturn known for its spectacular ice geysers at its south pole. These plumes eject water vapor and ice particles into space, indicating a subsurface ocean.",
         "texture": "./textures/2k_enceladus.jpg",
         "visual": { "radius": 0.000252 },
-        "physical": { "rotationPeriod": 118387 },
+        "physical": {
+          "mass": 1.08e20,
+          "density": 1609,
+          "gravity": 0.113,
+          "rotationPeriod": 118387
+        },
         "orbit": {
           "semimajorAxis": 0.2379,
           "eccentricity": 0.0047,
           "inclination": 0.009,
-          "longitudeOfAscendingNode": 0,
-          "argumentOfPeriapsis": 0,
-          "meanAnomaly0": 0,
+          "longitudeOfAscendingNode": 169.506,
+          "argumentOfPeriapsis": 93.204,
+          "meanAnomaly0": 199.686,
           "orbitalPeriod": 118387
+        },
+        "atmosphere": {
+          "exists": true,
+          "type": "Exosphere",
+          "mainComponents": [
+            { "name": "Water Vapor", "symbol": "H₂O", "percentage": 91 },
+            { "name": "Nitrogen", "symbol": "N₂", "percentage": 4 },
+            { "name": "Carbon Dioxide", "symbol": "CO₂", "percentage": 3.2 },
+            { "name": "Methane", "symbol": "CH₄", "percentage": 1.7 }
+          ]
+        },
+        "temperature": {
+          "min": -240,
+          "max": -128,
+          "average": -198
         }
       }
     ]
@@ -427,17 +590,33 @@
       {
         "name": "Titania",
         "type": "moon",
+        "description": "Titania is the largest moon of Uranus and the eighth-largest moon in the Solar System. Its surface shows signs of tectonic activity with large canyons and fault scarps.",
         "texture": "./textures/2k_titania.jpg",
         "visual": { "radius": 0.000788 },
-        "physical": { "rotationPeriod": 752256 },
+        "physical": {
+          "mass": 3.527e21,
+          "density": 1711,
+          "gravity": 0.379,
+          "rotationPeriod": 752256
+        },
         "orbit": {
           "semimajorAxis": 0.4359,
           "eccentricity": 0.0011,
           "inclination": 0.079,
-          "longitudeOfAscendingNode": 0,
-          "argumentOfPeriapsis": 0,
-          "meanAnomaly0": 0,
+          "longitudeOfAscendingNode": 167.638,
+          "argumentOfPeriapsis": 284.4,
+          "meanAnomaly0": 135.6,
           "orbitalPeriod": 752256
+        },
+        "atmosphere": {
+          "exists": false,
+          "type": "None",
+          "mainComponents": []
+        },
+        "temperature": {
+          "min": -213,
+          "max": -184,
+          "average": -203
         }
       }
     ]
@@ -483,17 +662,36 @@
       {
         "name": "Triton",
         "type": "moon",
+        "description": "Triton is Neptune's largest moon and the only large moon in the Solar System with a retrograde orbit. It is geologically active with nitrogen geysers and may be a captured Kuiper Belt object.",
         "texture": "./textures/2k_triton.jpg",
         "visual": { "radius": 0.001353 },
-        "physical": { "rotationPeriod": 507760 },
+        "physical": {
+          "mass": 2.14e22,
+          "density": 2061,
+          "gravity": 0.779,
+          "rotationPeriod": 507773
+        },
         "orbit": {
           "semimajorAxis": 0.3547,
           "eccentricity": 0.000016,
-          "inclination": 156.8, 
-          "longitudeOfAscendingNode": 0,
-          "argumentOfPeriapsis": 0,
-          "meanAnomaly0": 0,
-          "orbitalPeriod": 507760
+          "inclination": 156.865,
+          "longitudeOfAscendingNode": 177.608,
+          "argumentOfPeriapsis": 220.453,
+          "meanAnomaly0": 358.656,
+          "orbitalPeriod": 507773
+        },
+        "atmosphere": {
+          "exists": true,
+          "type": "Thin",
+          "mainComponents": [
+            { "name": "Nitrogen", "symbol": "N₂", "percentage": 99.9 },
+            { "name": "Methane", "symbol": "CH₄", "percentage": 0.1 }
+          ]
+        },
+        "temperature": {
+          "min": -235,
+          "max": -235,
+          "average": -235
         }
       }
     ]

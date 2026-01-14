@@ -103,9 +103,7 @@ export function addPlanetWithOrbit(parent, data, allBodiesList) {
     
     parent.add(orbitalPlaneGroup);
 
-    // Positionnement initial (Périhélie) - dans le plan XZ
-    const initialDistance = semiMajorAxis * (1 - eccentricity);
-    planetMesh.position.set(initialDistance, 0, 0);
+
 
     const bodyEntry = { 
         mesh: planetMesh,
