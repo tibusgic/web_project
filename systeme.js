@@ -300,11 +300,11 @@ function render() {
       
       // Calcul de l'angle de rotation initial
       // Formule : (Jours écoulés / Période) * 2 PI
-      let rotAngl = (t / rotPeriodInDays) * (Math.PI * 2);
+      let rotAngl = (t / rotP) * (Math.PI * 2);
       
       // On force la rotation comme faire un .set()
       // Le modulo % (Math.PI * 2) garde l'angle propre entre 0 et 360°
-      mesh.rotation.y = rotationAngle % (Math.PI * 2);
+      mesh.rotation.y = rotAngl % (Math.PI * 2);
 
       // --- Partie intermédiaire : L'inclinaison axiale ---
       // Pour que la Terre penche correctement (saisons)
