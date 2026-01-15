@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="fr-FR">
+  <head>
+    <meta charset="utf-8" />
+    <title>Systeme solaire</title>
+    <link rel="stylesheet" href="config.css">
+    <link rel="stylesheet" href="node_modules/bootstrap-icons/font/bootstrap-icons.css">
+  </head>
+  <body>
+    <script type="module" src="config.js"></script>
+    <h2 class="title">Configuration</h2>
+
+    
+
+    <div class="action-buttons">
+        <button class="btn-register" id="btn-register"><i class="bi bi-save"></i> Register</button>
+        <button class="btn-return" onclick="window.location='../index.html'"><i class="bi bi-arrow-left"></i> Return</button>
+        
+    </div>
+
+    <!--Env variables-->
+    <div class="env-variables">
+        <span>Ambient light color : <input type="color" id="ambient-light-color" value="#ffffff"></span>
+        <span>Ambient light intensity : <input type="number" id="ambient-light-intensity" value="0.4" step="0.01"></span>
+        
+        <span>Camera FOV : <input type="number" id="camera-fov" value="75" step="1"></span>
+        <span>Camera min distance : <input type="number" id="camera-min-distance" value="0.1" step="0.01"></span>
+        <span>Camera max distance : <input type="number" id="camera-max-distance" value="100000" step="1"></span>
+
+        <span>Zoom minDistance : <input type="number" id="zoom-min-distance" value="0.001" step="0.001"></span>
+        <span>Zoom maxDistance : <input type="number" id="zoom-max-distance" value="20000" step="15000"></span>
+
+        <span>Sky particule nb: <input type="number" id="nb-sky-particules" value="50000" step="100"></span>
+        <span>Sky particule minDistance: <input type="number" id="sky-particule-min-distance" value="4500" step="100"></span>
+        <span>Sky particule maxDistance: <input type="number" id="sky-particule-max-distance" value="12000" step="100"></span>
+
+        
+    </div>
+
+    <!-- choice of the celestial body -->
+    <div class="celestialbody-selector">
+        <label for="celestialbody-select">Select Celestial Body :</label>
+        <select id="celestialbody-select">
+
+        </select>
+        <!--
+        <button id="button-add-celestialbody" class="btn-add-component"><i class="bi bi-plus-circle"></i> Add Celestial Body</button>
+        -->
+    </div>
+    
+    <!-- Celestial Body -->
+    <div id="celestialbody-list" class="celestialbody-list">
+        <div class="celestialbody-div">
+
+    <span class="celestialbody-name">Name : <input type="text" id="name-input" value="Mercury"></span>
+    <span class="celestialbody-type">Type : <input type="text" id="type-input" value="Planet"></span>
+    <span class="celestialbody-descri">Description : <input type="text" id="description-input" value="Mercury is the closest planet to the Sun and the smallest in the Solar System."></span>
+    <span class="celestialbody-texture">Texture : <input type="text" id="texture-input" value="./textures/2k_mercury.jpg"></span>
+
+
+    <div class="celestialbody-visual">
+        <h4>Visual</h4>
+        <span>Radius : <input type="number" id="radius-input" value="0.0024397" step="0.0000001"></span>
+    </div>
+
+
+    <div class="celestialbody-physical">
+        <h4>Physical</h4>
+        <span>Mass (kg) : <input type="text" id="mass-input" value="3.30e23"></span>
+        <span>Density (kg/m³) : <input type="number" id="density-input" value="5427"></span>
+        <span>Gravity (m/s²) : <input type="number" id="gravity-input" value="3.7" step="0.01"></span>
+        <span>Rotation Period (days) : <input type="number" id="rotation-input" value="58.65" step="0.01"></span>
+    </div>
+
+
+    <div class="celestialbody-orbit">
+        <h4>Orbit</h4>
+        <span>Semi-major Axis (million km) : <input type="number" id="semimajoraxis-input" value="57.9" step="0.1"></span>
+        <span>Eccentricity : <input type="number" id="eccentricity-input" value="0.2056" step="0.0001"></span>
+        <span>Inclination (°) : <input type="number" id="inclination-input" value="7.00" step="0.01"></span>
+        <span>Longitude of Ascending Node (°) : <input type="number" id="longitude-input" value="48.33" step="0.01"></span>
+        <span>Argument of Periapsis (°) : <input type="number" id="periapsis-input" value="29.12" step="0.01"></span>
+        <span>Mean Anomaly (°) : <input type="number" id="meananomaly-input" value="174.79" step="0.01"></span>
+        <span>Orbital Period (days) : <input type="number" id="orbitalperiod-input" value="87.97" step="0.01"></span>
+    </div>
+
+
+    <div class="celestialbody-atmosphere">
+        <h4>Atmosphere</h4>
+        <span>Exists : <input type="checkbox" id="atmosphere-exists-input" checked></span>
+        <span>Type : <input type="text" id="atmosphere-type-input" value="Exosphere"></span>
+        <div class="atmosphere-components">
+            <h5>Main Components</h5>
+            <div class="component">
+                <span>Name : <input type="text" class="component-name" value="Oxygen"></span>
+                <span>Symbol : <input type="text" class="component-symbol" value="O"></span>
+                <span>Percentage : <input type="number" class="component-percentage" value="42" step="0.1">%</span>
+            </div>
+            <div class="component">
+                <span>Name : <input type="text" class="component-name" value="Sodium"></span>
+                <span>Symbol : <input type="text" class="component-symbol" value="Na"></span>
+                <span>Percentage : <input type="number" class="component-percentage" value="29" step="0.1">%</span>
+            </div>
+            <div class="component">
+                <span>Name : <input type="text" class="component-name" value="Hydrogen"></span>
+                <span>Symbol : <input type="text" class="component-symbol" value="H"></span>
+                <span>Percentage : <input type="number" class="component-percentage" value="22" step="0.1">%</span>
+            </div>
+            <div class="component">
+                <span>Name : <input type="text" class="component-name" value="Helium"></span>
+                <span>Symbol : <input type="text" class="component-symbol" value="He"></span>
+                <span>Percentage : <input type="number" class="component-percentage" value="6" step="0.1">%</span>
+            </div>
+            <div class="component">
+                <button class="btn-add-component"><i class="bi bi-plus-circle"></i> Add Component</button>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="celestialbody-temperature">
+        <h4>Temperature (°C)</h4>
+        <span>Min : <input type="number" id="temp-min-input" value="-173"></span>
+        <span>Max : <input type="number" id="temp-max-input" value="427"></span>
+        <span>Average : <input type="number" id="temp-avg-input" value="167"></span>
+    </div>
+
+    
+</div>
+    </div>
+  </body>
+</html>

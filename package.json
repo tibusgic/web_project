@@ -1,17 +1,14 @@
 {
-  "name": "threejs-vite",
-  "private": true,
-  "version": "0.0.1",
+  "name": "solar-system",
+  "version": "1.0.0",
+  "description": "Solar System 3D Visualization",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview"
-  },
-  "dependencies": {
-    "bootstrap-icons": "^1.13.1",
-    "three": "^0.128.0"
+    "start:api": "cd api && npm run dev",
+    "start:app": "cd app && npm run dev",
+    "dev": "concurrently \"npm run start:api\" \"npm run start:app\"",
+    "install:all": "cd api && npm install && cd ../app && npm install"
   },
   "devDependencies": {
-    "vite": "^5.0.0"
+    "concurrently": "^8.2.2"
   }
 }
