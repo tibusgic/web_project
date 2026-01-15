@@ -25,13 +25,6 @@
   </p>
 </section>
 
-<section>
-<h2>Démarrer en local | Utilisation de npm</h2>
-<ul>
-  <li>npm install</li>
-  <li>npm run dev</li>
-</ul>
-</section>
 
 <section>
   <h2>Fonctionnalités prévues</h2>
@@ -49,21 +42,22 @@
 </section>
 
 - [X] index.html qui inclut système.js
-- [ ] système.js qui est l'interface three.js globale du projet
-- [ ] fichier .js pour définir une planète
+- [X] système.js qui est l'interface three.js globale du projet
+- [X] fichier .js pour définir une planète
 - [X] fichier .js pour définir une étoile
 - [X] dossier texture
 - [X] curseur de changement d'echelle
-- [ ] fiche d'intentification des planètes
-- [ ] position.js qui recup les xyz des planete via kepler.js
+- [X] fiche d'intentification des planètes
 
 </section>
   <h2>Tâches secondaires</h2>
 <section>
-  
-- [ ] fichiers .js des lunes
+
+- [X] Gestion du temps (timelapse)
+- [X] lunes
+- [X] API + page de configuration des données
 - [ ] fichiers .js des ceintures d'astéroides
-- [ ] fichiers .js d'autres éléments
+- [X] fichiers .js d'autres éléments
 - [ ] déplacement sur la terre avec informations des pays
 
 <section>
@@ -74,4 +68,32 @@
       https://eyes.nasa.gov/apps/solar-system
     </a>
   </p>
+</section>
+
+
+<section>
+<h2>Démarrer en local</h2>
+
+### Installation
+```
+npm install          # Installe concurrently (racine)
+npm run install:all  # Installe les dépendances de api/ et app/
+```
+
+### Lancement
+```
+npm run dev          # Lance l'API (port 5175) + l'App (port 5173) simultanément
+```
+
+### Commandes individuelles
+| Commande | Description |
+|----------|-------------|
+| `npm run dev` | Lance les deux serveurs en parallèle |
+| `npm run start:api` | Lance uniquement l'API (port 5175) |
+| `npm run start:app` | Lance uniquement l'App (port 5173) |
+
+### Accès
+- **Application** : [http://localhost:5173](http://localhost:5173)
+- **API** : [http://localhost:5175](http://localhost:5175)
+
 </section>
