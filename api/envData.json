@@ -6,12 +6,16 @@
     },
     "camera" : {
         "fov": 60,
-        "near": 0.1,
+        "near": 0.001,
         "far": 100000
     },
+    "zoom" : {
+        "minDistance" : 0.001,
+        "maxDistance" : 15000
+    },
     "sky" : {
-        "quantity" : 8000,
-        "minDistance" : 4500,
-        "maxDistance" : 12000
+        "quantity" : 10000,
+        "minDistance" : 12000,
+        "maxDistance" : 18000
     }
 }
