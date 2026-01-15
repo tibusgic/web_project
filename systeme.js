@@ -83,47 +83,114 @@ inputSlider.oninput = (()=>{
   });
 })
 
-// Créer le curseur fixe à l'écran pour le temps
-const timeSliderDiv = document.createElement('div');
-timeSliderDiv.className = 'range';
+// --- INTERFACE TEMPORELLE (Date + Vitesse + Reset) ---
 
-timeSliderDiv.style.position = 'absolute';
-timeSliderDiv.style.bottom = '20px';
-timeSliderDiv.style.left = '20px';
-timeSliderDiv.style.zIndex = '1000';
-timeSliderDiv.style.transform = 'scale(0.9)';
+// Création du conteneur principal (en bas à gauche)
+const timeContainer = document.createElement('div');
+timeContainer.style.position = 'absolute';
+timeContainer.style.bottom = '20px';
+timeContainer.style.left = '20px';
+timeContainer.style.zIndex = '1000';
+timeContainer.style.display = 'flex';
+timeContainer.style.flexDirection = 'column'; // Empiler la date et les contrôles
+timeContainer.style.gap = '5px';
+document.body.appendChild(timeContainer);
 
-timeSliderDiv.innerHTML = `
-  <div class="SliderValue">
-    <span>1</span>
-  </div>
+
+// Affichage de la date et de l'heure
+const dateText = document.createElement('div');
+dateText.style.fontFamily = "'Courier New', monospace";
+dateText.style.fontWeight = 'bold';
+dateText.style.color = 'var(--primary-color)';
+dateText.style.textShadow = '0 0 10px var(--primary-color)';
+dateText.style.marginLeft = '10px';
+dateText.textContent = "DATE: --/--/----";
+
+// Ajout de l'affichage de la date au conteneur principal
+timeContainer.appendChild(dateText);
+
+
+// Création d'une ligne de contrôle pour aligner le Curseur et le Bouton
+const controlsRow = document.createElement('div');
+controlsRow.style.display = 'flex';
+controlsRow.style.alignItems = 'end'; // Aligner en bas
+controlsRow.style.gap = '10px';
+
+// Ajout de la ligne de contrôle au conteneur principal
+timeContainer.appendChild(controlsRow);
+
+// Curseur de temps
+const sliderBox = document.createElement('div');
+sliderBox.className = 'range';
+sliderBox.style.transform = 'scale(0.85)';
+sliderBox.style.marginBottom = '0';
+sliderBox.innerHTML = `
+  <div class="SliderValue"><span>1</span></div>
   <div class="field">
     <div class="value left">PASSE</div>
-    <input type="range" min="-10" max="10" step="1" value="1" class="slider" id="timeRange" />
+    <input type="range" min="-10" max="10" step="1" value="1" id="timeRange">
     <div class="value right">FUTUR</div>
   </div>
 `;
-document.body.appendChild(timeSliderDiv);
 
-// Logique du slider temporel
-const timeValLabel = timeSliderDiv.querySelector('.SliderValue span');
-const timeInput = timeSliderDiv.querySelector('#timeRange');
+// Ajout du curseur à la ligne de contrôle
+controlsRow.appendChild(sliderBox);
 
-timeInput.oninput = (() => {
+// Bouton Reset
+const resetBtn = document.createElement('button');
+resetBtn.innerHTML = '<i class="bi bi-arrow-counterclockwise"></i> NOW';
+resetBtn.style.background = 'var(--bg-transparent)';
+resetBtn.style.border = 'var(--border-width) solid var(--primary-color)';
+resetBtn.style.color = 'var(--primary-color)';
+resetBtn.style.fontFamily = "'Courier New', monospace";
+resetBtn.style.fontWeight = 'bold';
+resetBtn.style.padding = '8px 12px';
+resetBtn.style.marginBottom = '18px'; // Pour s'aligner avec le slider
+resetBtn.style.cursor = 'pointer';
+
+// Effet de survol du bouton
+resetBtn.onmouseenter = () => { resetBtn.style.background = 'var(--primary-color)'; resetBtn.style.color = 'black'; };
+resetBtn.onmouseleave = () => { resetBtn.style.background = 'var(--bg-transparent)'; resetBtn.style.color = 'var(--primary-color)'; };
+
+// Ajout du bouton à la ligne de contrôle
+controlsRow.appendChild(resetBtn);
+
+// --- LOGIQUE DU CURSEUR DE TEMPS ET BOUTON RESET ---
+
+const timeInput = sliderBox.querySelector('#timeRange');
+const timeBubble = sliderBox.querySelector('.SliderValue span');
+
+timeInput.oninput = () => {
   let val = parseFloat(timeInput.value);
+
+  // Calcul de la vitesse
+  let speed = 10**(Math.abs(val));
   
-  // Calcul de la vitesse temporelle en utilisant une fonction puissance pour une meilleure granularité
-  let calculatedSpeed = 10**(Math.abs(val)); // Base 10
-  if (val < 0) calculatedSpeed = -calculatedSpeed; //passé
-  if (val === 0) calculatedSpeed = 0; // Pause
+  if (val < 0) speed = -speed; // Vers le passé
+  if (val === 0) speed = 0; // Pause
 
-  // Mise à jour de la variable globale utilisée dans render()
-  timeScale = calculatedSpeed;
+  // Mise à jour de la variable globale
+  timeScale = speed;
 
-  // Met à jour l'affichage de la valeur
-  let percentage = ((val + 10) / 20) * 100;
-  timeValLabel.style.left = `calc(${percentage}% + (${8 - percentage * 0.16}px))`;
-});
+  // Bouger la petite bulle au-dessus
+  let percent = ((val + 10) / 20) * 100;
+  timeBubble.style.left = `calc(${percent}% + (${8 - percent * 0.16}px))`;
+};
+
+resetBtn.onclick = () => {
+  // Calculer le temps réel actuel par rapport à l'an 2000
+  const now = new Date();
+  simulatedTime = (now - startJ2000) / 1000;
+
+  // Remettre le curseur à 1 (Temps réel)
+  timeInput.value = 1;
+  timeInput.dispatchEvent(new Event('input')); // Forcer la mise à jour
+};
+
+// Référence globale pour mise à jour dans la boucle de rendu
+window.dateDisplayElement = dateText;
+
+
 
 //import la fonction des cartes d'information
 import { createPlanetCard } from './card.js';
@@ -316,6 +383,12 @@ let simulatedTime = realSecondsSinceJ2000;
 // Rendu
 function render() {
   requestAnimationFrame(render);
+
+  // Mise à jour de l'affichage de la date
+  let currentSimDate = new Date(startJ2000.getTime() + simulatedTime * 1000);
+  if (window.dateDisplayElement) {
+      window.dateDisplayElement.textContent = "DATE: " + currentSimDate.toLocaleString('fr-FR');
+  }
   
   // Gestion du temps
   const delta = clock.getDelta(); // Temps écoulé en secondes depuis la dernière frame
@@ -327,7 +400,7 @@ function render() {
     let obj = body[i];
 
     // Vérifie que la planète a bien ses données et son objet 3D
-    if (obj.data != null && obj.mesh != null && obj.system != null) {
+    if (obj.data && obj.mesh && obj.system) {
       
       let data = obj.data;
       let mesh = obj.mesh;
@@ -340,11 +413,18 @@ function render() {
       // Période de rotation (en secondes)
       let rotP = data.physical.rotationPeriod;
       
-      // Vitesse angulaire de base (en rad/s)
-      let angleRotation = (t / rotP) * (Math.PI * 2);
-      
-      // Calcul du pas de rotation
-      mesh.rotation.y = angleRotation * rotationSpeed;
+      if (rotP) {
+        // Calcul de l'angle de rotation
+        let angleRotation = ((t % rotP) / rotP) * (Math.PI * 2);
+        
+        // Appliquer la rotation autour de l'axe Y
+        mesh.rotation.y = angleRotation * rotationSpeed;
+      }
+
+      // Inclinaison de l'axe (obliquité)
+      if (data.physical.obliquity) {
+         mesh.rotation.z = data.physical.obliquity * (Math.PI / 180); 
+      }
 
       // --- Partie 2 : Révolution ---
 

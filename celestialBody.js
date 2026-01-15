@@ -9,7 +9,6 @@ export function generatePlanet(size, texture) {
     });
 
     const planetMesh = new THREE.Mesh(geometry, planetMaterial);
-
     planetMesh.userData.celestialBody = true;
     planetMesh.userData.originalScale = 1;
 
@@ -45,76 +44,70 @@ function generateOrbit(a, e) {
 export function addPlanetWithOrbit(parent, data, allBodiesList) {
     const orbitData = data.orbit;
 
-    // Extraction et conversion des angles en radians
+    // Conversion des données orbitales
     const semiMajorAxis = orbitData.semimajorAxis; 
     const eccentricity = orbitData.eccentricity;
     const inclination = orbitData.inclination * (Math.PI / 180);
     const argumentOfPeriapsis = orbitData.argumentOfPeriapsis * (Math.PI / 180); 
     const longitudeOfAscendingNode = orbitData.longitudeOfAscendingNode * (Math.PI / 180);
 
-    // Création des objets visuels (Mesh et Line)
+    // Création Mesh + Tag
     const planetMesh = generatePlanet(data.visual.radius, data.texture);
-    planetMesh.position.set(0, 0, 0);
-
-    //contenu tag HTML
+    
     const nameTagDiv = document.createElement('div');
     nameTagDiv.className = 'name-tag';
     nameTagDiv.textContent = data.name;
     nameTagDiv.style.cursor = 'pointer';
-
-    // Création name-tag pour la planète CSS2
     const nameTag = new CSS2DObject(nameTagDiv);
-    nameTag.position.set(0, data.visual.radius, 0); 
+    nameTag.position.set(0, data.visual.radius * 1.5, 0); 
     planetMesh.add(nameTag);
     
-    // Stocker les données de la planète dans userData
+    // Stockage des données utilisateur
     planetMesh.userData.name = data.name;
     planetMesh.userData.planetData = data;
     
-    const trajectoryLine = generateOrbit(semiMajorAxis, eccentricity);
-
-    // GROUPE 1 : Orientation du plan orbital (Inclinaison i et Noeud Omega)
+    // Groupe A: Plan Orbital (orientation dans l'espace)
     const orbitalPlaneGroup = new THREE.Group();
     orbitalPlaneGroup.rotation.y = longitudeOfAscendingNode; 
     orbitalPlaneGroup.rotation.z = inclination;     
 
-    // GROUPE 2 : Orientation de la forme de l'ellipse (Argument de Périapse omega)
+    // Groupe B: Forme de l'orbite (ellipse)
     const orbitShapeGroup = new THREE.Group();
     orbitShapeGroup.rotation.y = argumentOfPeriapsis; 
 
-    // GROUPE 3 : Contient la planète (et autres éléments liés)
+    // Groupe C: Le Système Mobile (Planète + Lunes)
     const systemGroup = new THREE.Group();
-    systemGroup.add(planetMesh); // Le Mesh est dans le wagon
+    systemGroup.add(planetMesh); 
 
-    // On met à jour le userData du tag pour que la caméra suive le BON objet (le système, pas juste le mesh)
-    nameTagDiv.userData = { mesh: planetMesh, planetData: data, systemGroup: systemGroup };
-
-    // Si dans le JSON, il y a une liste "moons"
-    if (data.moons) {
-        data.moons.forEach(luneData => {
-            addPlanetWithOrbit(systemGroup, luneData, allBodiesList);  // récursivité pour les lunes
-        });
-    }
-    
-    // Assemblage de la hiérarchie : ShapeGroup -> PlaneGroup -> Scene
+    // Ajout de la ligne de trajectoire (fixe dans le groupe B)
+    const trajectoryLine = generateOrbit(semiMajorAxis, eccentricity);
     orbitShapeGroup.add(trajectoryLine);
-    orbitShapeGroup.add(systemGroup); // Le wagon est sur le rail
-    orbitalPlaneGroup.add(orbitShapeGroup);
     
+    // Assemblage final
+    orbitShapeGroup.add(systemGroup);
+    orbitalPlaneGroup.add(orbitShapeGroup);
     parent.add(orbitalPlaneGroup);
 
+    // Stockage des références pour l'animation
+    nameTagDiv.userData = { mesh: planetMesh, planetData: data, systemGroup: systemGroup };
 
-
+    // Enregistrement dans la liste d'animation
     const bodyEntry = { 
         mesh: planetMesh,
-        system: systemGroup, // On ajoute le system pour que render() puisse le bouger
+        system: systemGroup, 
         data: data,
         nameTagDiv: nameTagDiv
     };
 
-    // On ajoute cet objet (Planète OU Lune) à la liste globale pour l'animation
     if (allBodiesList) {
         allBodiesList.push(bodyEntry);
+    }
+
+    // Récursivité pour les lunes (s'il y en a)
+    if (data.moons) {
+        data.moons.forEach(luneData => {
+            addPlanetWithOrbit(systemGroup, luneData, allBodiesList); 
+        });
     }
 
     return bodyEntry;

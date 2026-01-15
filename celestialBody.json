@@ -11,7 +11,8 @@
       "mass": 3.30e23,
       "density": 5427,
       "gravity": 3.7,
-      "rotationPeriod": 5067360
+      "rotationPeriod": 5067360,
+      "obliquity": 0.03
     },
     "orbit": {
       "semimajorAxis": 57.9,
@@ -51,7 +52,8 @@
       "mass": 4.87e24,
       "density": 5243,
       "gravity": 8.87,
-      "rotationPeriod": 20995200
+      "rotationPeriod": 20995200,
+      "obliquity": 177.3
     },
     "orbit": {
       "semimajorAxis": 108.2,
@@ -90,7 +92,8 @@
       "mass": 5.97e24,
       "density": 5514,
       "gravity": 9.81,
-      "rotationPeriod": 86400
+      "rotationPeriod": 86400,
+      "obliquity": 23.44
     },
     "orbit": {
       "semimajorAxis": 149.6,
@@ -127,7 +130,8 @@
           "mass": 7.342e22,
           "density": 3344,
           "gravity": 1.62,
-          "rotationPeriod": 2360592
+          "rotationPeriod": 2360592,
+          "obliquity": 6.68
         },
         "orbit": {
           "semimajorAxis": 0.3844,
@@ -163,7 +167,8 @@
       "mass": 6.42e23,
       "density": 3934,
       "gravity": 3.72,
-      "rotationPeriod": 88992
+      "rotationPeriod": 88992,
+      "obliquity": 25.19
     },
     "orbit": {
       "semimajorAxis": 227.9,
@@ -200,7 +205,8 @@
           "mass": 1.0659e16,
           "density": 1876,
           "gravity": 0.0057,
-          "rotationPeriod": 27553
+          "rotationPeriod": 27553,
+          "obliquity": 0
         },
         "orbit": {
           "semimajorAxis": 0.009376,
@@ -232,7 +238,8 @@
           "mass": 1.4762e15,
           "density": 1471,
           "gravity": 0.003,
-          "rotationPeriod": 109074
+          "rotationPeriod": 109074,
+          "obliquity": 0
         },
         "orbit": {
           "semimajorAxis": 0.023463,
@@ -268,7 +275,8 @@
       "mass": 1.898e27,
       "density": 1326,
       "gravity": 24.79,
-      "rotationPeriod": 35424
+      "rotationPeriod": 35424,
+      "obliquity": 3.13
     },
     "orbit": {
       "semimajorAxis": 778.5,
@@ -305,7 +313,8 @@
           "mass": 8.9319e22,
           "density": 3528,
           "gravity": 1.796,
-          "rotationPeriod": 152853
+          "rotationPeriod": 152853,
+          "obliquity": 0
         },
         "orbit": {
           "semimajorAxis": 0.4217,
@@ -340,7 +349,8 @@
           "mass": 4.7998e22,
           "density": 3013,
           "gravity": 1.314,
-          "rotationPeriod": 306822
+          "rotationPeriod": 306822,
+          "obliquity": 0
         },
         "orbit": {
           "semimajorAxis": 0.6710,
@@ -374,7 +384,8 @@
           "mass": 1.4819e23,
           "density": 1936,
           "gravity": 1.428,
-          "rotationPeriod": 618153
+          "rotationPeriod": 618153,
+          "obliquity": 0
         },
         "orbit": {
           "semimajorAxis": 1.0704,
@@ -408,7 +419,8 @@
           "mass": 1.0759e23,
           "density": 1834,
           "gravity": 1.235,
-          "rotationPeriod": 1441931
+          "rotationPeriod": 1441931,
+          "obliquity": 0
         },
         "orbit": {
           "semimajorAxis": 1.8827,
@@ -447,7 +459,8 @@
       "mass": 5.683e26,
       "density": 687,
       "gravity": 10.44,
-      "rotationPeriod": 38880
+      "rotationPeriod": 38880,
+      "obliquity": 26.73
     },
     "orbit": {
       "semimajorAxis": 1432,
@@ -484,7 +497,8 @@
           "mass": 1.3452e23,
           "density": 1880,
           "gravity": 1.352,
-          "rotationPeriod": 1377648
+          "rotationPeriod": 1377648,
+          "obliquity": 0
         },
         "orbit": {
           "semimajorAxis": 1.2218,
@@ -520,7 +534,8 @@
           "mass": 1.08e20,
           "density": 1609,
           "gravity": 0.113,
-          "rotationPeriod": 118387
+          "rotationPeriod": 118387,
+          "obliquity": 0
         },
         "orbit": {
           "semimajorAxis": 0.2379,
@@ -561,7 +576,8 @@
       "mass": 8.681e25,
       "density": 1270,
       "gravity": 8.87,
-      "rotationPeriod": 62208
+      "rotationPeriod": 62208,
+      "obliquity": 97.77
     },
     "orbit": {
       "semimajorAxis": 2867,
@@ -597,7 +613,8 @@
           "mass": 3.527e21,
           "density": 1711,
           "gravity": 0.379,
-          "rotationPeriod": 752256
+          "rotationPeriod": 752256,
+          "obliquity": 0
         },
         "orbit": {
           "semimajorAxis": 0.4359,
@@ -633,7 +650,8 @@
       "mass": 1.024e26,
       "density": 1638,
       "gravity": 11.15,
-      "rotationPeriod": 57888
+      "rotationPeriod": 57888,
+      "obliquity": 28.32
     },
     "orbit": {
       "semimajorAxis": 4515,
@@ -669,7 +687,8 @@
           "mass": 2.14e22,
           "density": 2061,
           "gravity": 0.779,
-          "rotationPeriod": 507773
+          "rotationPeriod": 507773,
+          "obliquity": 0
         },
         "orbit": {
           "semimajorAxis": 0.3547,
