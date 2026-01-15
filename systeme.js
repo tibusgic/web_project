@@ -305,16 +305,24 @@ let timeScale = 1; // Facteur de vitesse temporelle
 let rotationSpeed = 1; // Vitesse de rotation
 let revolutionSpeed = 1; // Vitesse de revolution
 
+// Calcul du temps depuis J2000
+const now = new Date();
+const startJ2000 = new Date('2000-01-01T12:00:00Z'); // Date de référence standard
+const realSecondsSinceJ2000 = (now - startJ2000) / 1000; 
+
+// Initialiser le temps simulé sur le temps réel actuel
+let simulatedTime = realSecondsSinceJ2000;
+
 // Rendu
 function render() {
   requestAnimationFrame(render);
   
   // Gestion du temps
-  const delta = clock.getDelta(); // Temps écoulé depuis le dernier frame
-  const elapsedTime = clock.getElapsedTime(); // Temps total depuis le début 
+  const delta = clock.getDelta(); // Temps écoulé en secondes depuis la dernière frame
+  simulatedTime += delta * timeScale; // Met à jour le temps simulé
 
   // Mise à jour de la position et rotation des planètes
-  // Parcours la liste des planètes une par une avec une boucle classique
+  // Parcours la liste des planètes
   for (let i = 0; i < body.length; i++) {
     let obj = body[i];
 
@@ -323,7 +331,9 @@ function render() {
       
       let data = obj.data;
       let mesh = obj.mesh;
-      let system = obj.system;
+
+      // Temps simulé global pour tout le monde
+      let t = simulatedTime;
 
       // --- Partie 1 : Rotation ---
       
@@ -331,11 +341,10 @@ function render() {
       let rotP = data.physical.rotationPeriod;
       
       // Vitesse angulaire de base (en rad/s)
-      let omega = (2 * Math.PI) / rotP;
+      let angleRotation = (t / rotP) * (Math.PI * 2);
       
       // Calcul du pas de rotation
-      let rotationStep = omega * rotationSpeed * timeScale * delta; // Ajusté par le facteur de temps et la vitesse de rotation
-      mesh.rotation.y += rotationStep;
+      mesh.rotation.y = angleRotation * rotationSpeed;
 
       // --- Partie 2 : Révolution ---
 
@@ -352,15 +361,11 @@ function render() {
       // Mouvement moyen n (vitesse angulaire moyenne)
       let n = (2 * Math.PI) / T;
 
-      // Temps simulé t
-      let t = elapsedTime * revolutionSpeed * timeScale; // Ajusté par le facteur de temps et la vitesse de révolution
-
-      // Anomalie Moyenne M
-      let M = M0 + (n * t);
+      // Calcul de l'Anomalie Moyenne M à l'instant t
+      let M = M0 + (n * t * revolutionSpeed);
 
       // Anomalie Excentrique E (approximation)
       let E = M;
-      // 5 itérations pour une haute précision visuelle
       for (let k = 0; k < 5; k++) {
           E = E - (E - e * Math.sin(E) - M) / (1 - e * Math.cos(E));
       }
@@ -372,7 +377,7 @@ function render() {
       let z = a * Math.sqrt(1 - e * e) * Math.sin(E);
 
       // Nouvelles positions (x, 0, z)
-      system.position.set(x, 0, z)
+      mesh.position.set(x, 0, z);
     }
   }
 
