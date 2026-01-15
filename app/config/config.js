@@ -52,7 +52,18 @@ systemeData.forEach((body, index) => {
     option.value = index;
     option.textContent = body.name;
     celestialbodySelect.appendChild(option);
+
+    // ajouter les lunes si existantes
+    if (body.moons && body.moons.length > 0) {
+        body.moons.forEach((moon, moonIndex) => {
+            const moonOption = document.createElement('option');
+            moonOption.value = index + '-' + moonIndex;
+            moonOption.textContent = `${moon.name} (Moon of ${body.name})`;
+            celestialbodySelect.appendChild(moonOption);
+        });
+    }
 });
+
 
 
 // références aux inputs
@@ -85,39 +96,48 @@ const tempMaxInput = document.getElementById('temp-max-input');
 const tempAvgInput = document.getElementById('temp-avg-input');
 
 
-// fonction pour remplir le formulaire
-function fillPlanetData(planetIndex) {
-    const planet = systemeData[planetIndex];
-    if (!planet) return;
+// fonction pour remplir le formulaire (planète ou lune)
+function fillBodyData(bodyValue) {
+    let body;
+    
+    // Vérifier si c'est une lune  planetIndex-moonIndex
+    if (typeof bodyValue === 'string' && bodyValue.includes('-')) {
+        const [planetIndex, moonIndex] = bodyValue.split('-').map(Number);
+        body = systemeData[planetIndex]?.moons?.[moonIndex];
+    } else {
+        body = systemeData[parseInt(bodyValue)];
+    }
+    
+    if (!body) return;
 
-    nameInput.value = planet.name || '';
-    typeInput.value = planet.type || '';
-    descriptionInput.value = planet.description || '';
-    textureInput.value = planet.texture || '';
+    nameInput.value = body.name || '';
+    typeInput.value = body.type || '';
+    descriptionInput.value = body.description || '';
+    textureInput.value = body.texture || '';
 
-    radiusInput.value = planet.visual?.radius || 0;
+    radiusInput.value = body.visual?.radius || 0;
 
-    massInput.value = planet.physical?.mass || 0;
-    densityInput.value = planet.physical?.density || 0;
-    gravityInput.value = planet.physical?.gravity || 0;
-    rotationInput.value = planet.physical?.rotationPeriod || 0;
+    massInput.value = body.physical?.mass || 0;
+    densityInput.value = body.physical?.density || 0;
+    gravityInput.value = body.physical?.gravity || 0;
+    rotationInput.value = body.physical?.rotationPeriod || 0;
 
-    semimajorAxisInput.value = planet.orbit?.semimajorAxis || 0;
-    eccentricityInput.value = planet.orbit?.eccentricity || 0;
-    inclinationInput.value = planet.orbit?.inclination || 0;
-    longitudeInput.value = planet.orbit?.longitudeOfAscendingNode || 0;
-    periapsisInput.value = planet.orbit?.argumentOfPeriapsis || 0;
-    meanAnomalyInput.value = planet.orbit?.meanAnomaly0 || 0;
-    orbitalPeriodInput.value = planet.orbit?.orbitalPeriod || 0;
+    semimajorAxisInput.value = body.orbit?.semimajorAxis || 0;
+    eccentricityInput.value = body.orbit?.eccentricity || 0;
+    inclinationInput.value = body.orbit?.inclination || 0;
+    longitudeInput.value = body.orbit?.longitudeOfAscendingNode || 0;
+    periapsisInput.value = body.orbit?.argumentOfPeriapsis || 0;
+    meanAnomalyInput.value = body.orbit?.meanAnomaly0 || 0;
+    orbitalPeriodInput.value = body.orbit?.orbitalPeriod || 0;
 
-    atmosphereExistsInput.checked = planet.atmosphere?.exists || false;
-    atmosphereTypeInput.value = planet.atmosphere?.type || '';
+    atmosphereExistsInput.checked = body.atmosphere?.exists || false;
+    atmosphereTypeInput.value = body.atmosphere?.type || '';
 
-    generateAtmosphereComponents(planet.atmosphere?.mainComponents || []);
+    generateAtmosphereComponents(body.atmosphere?.mainComponents || []);
 
-    tempMinInput.value = planet.temperature?.min || 0;
-    tempMaxInput.value = planet.temperature?.max || 0;
-    tempAvgInput.value = planet.temperature?.average || 0;
+    tempMinInput.value = body.temperature?.min || 0;
+    tempMaxInput.value = body.temperature?.max || 0;
+    tempAvgInput.value = body.temperature?.average || 0;
 }
 
 
@@ -147,19 +167,56 @@ function generateAtmosphereComponents(components) {
     atmosphereComponentsContainer.querySelectorAll('.btn-remove-component').forEach(btn => {
         btn.addEventListener('click', (e) => {
             const index = parseInt(e.currentTarget.dataset.index);
-            systemeData[currentPlanet].atmosphere.mainComponents.splice(index, 1);
-            generateAtmosphereComponents(systemeData[currentPlanet].atmosphere.mainComponents);
+            const currentBody = getCurrentBody();
+            if (currentBody) {
+                currentBody.atmosphere.mainComponents.splice(index, 1);
+                generateAtmosphereComponents(currentBody.atmosphere.mainComponents);
+            }
         });
     });
 
     atmosphereComponentsContainer.querySelector('.btn-add-component').addEventListener('click', () => {
-        systemeData[currentPlanet].atmosphere.mainComponents.push({
-            name: 'New',
-            symbol: 'X',
-            percentage: 0
-        });
-        generateAtmosphereComponents(systemeData[currentPlanet].atmosphere.mainComponents);
+        const currentBody = getCurrentBody();
+        if (currentBody) {
+            currentBody.atmosphere.mainComponents.push({
+                name: 'New',
+                symbol: 'X',
+                percentage: 0
+            });
+            generateAtmosphereComponents(currentBody.atmosphere.mainComponents);
+        }
     });
+}
+
+// Fonction pour obtenir le corps céleste actuel (planète ou lune)
+function getCurrentBody() {
+    if (typeof currentSelection === 'string' && currentSelection.includes('-')) {
+        const [planetIndex, moonIndex] = currentSelection.split('-').map(Number);
+        return systemeData[planetIndex]?.moons?.[moonIndex];
+    } else {
+        return systemeData[parseInt(currentSelection)];
+    }
+}
+
+// Fonction pour sauvegarder les données du formulaire dans le bon objet
+function saveCurrentBody() {
+    const formData = getFormData();
+    
+    if (typeof currentSelection === 'string' && currentSelection.includes('-')) {
+        const [planetIndex, moonIndex] = currentSelection.split('-').map(Number);
+        if (systemeData[planetIndex]?.moons?.[moonIndex]) {
+            // Conserver le tableau moons de la lune s'il existe
+            formData.moons = systemeData[planetIndex].moons[moonIndex].moons || [];
+            systemeData[planetIndex].moons[moonIndex] = formData;
+        }
+    } else {
+        const planetIndex = parseInt(currentSelection);
+        if (systemeData[planetIndex]) {
+            // Conserver le tableau moons de la planète
+            formData.moons = systemeData[planetIndex].moons || [];
+            systemeData[planetIndex] = formData;
+        }
+    }
 }
 
 
@@ -241,23 +298,25 @@ function getEnvData() {
 }
 
 
-let currentPlanet = 0;
-fillPlanetData(currentPlanet);
+let currentSelection = '0'; // Peut être "0" (planète) ou "0-1" (lune)
+fillBodyData(currentSelection);
 
 celestialbodySelect.addEventListener('change', (event) => {
-    // Sauvegarder avant de changer de planète
-    systemeData[currentPlanet] = getFormData();
+    // Sauvegarder avant de changer de corps céleste
+    saveCurrentBody();
     
-    currentPlanet = parseInt(event.target.value);
-    fillPlanetData(currentPlanet);
-    console.log(`Planète sélectionnée: ${systemeData[currentPlanet].name}`);
+    currentSelection = event.target.value;
+    fillBodyData(currentSelection);
+    
+    const currentBody = getCurrentBody();
+    console.log(`Corps céleste sélectionné: ${currentBody?.name || 'Inconnu'}`);
 });
 
 
 //Register
 document.getElementById('btn-register').addEventListener('click', async () => {
-    // Sauvegarder
-    systemeData[currentPlanet] = getFormData();
+    // Sauvegarder le corps actuel
+    saveCurrentBody();
 
     try {
         //données des planètes
