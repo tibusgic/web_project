@@ -20,7 +20,7 @@ function generateOrbit(a, e) {
     // a = demi-grand axe (semimajorAxis)
     // e = excentricité (eccentricity)
     const points = [];
-    const segments = 1024; // Plus le chiffre est haut, plus le cercle est lisse
+    const segments = 2048; // Plus le chiffre est haut, plus le cercle est lisse
 
     for (let i = 0; i <= segments; i++) {
         // Angle de 0 à 360 degrés (en radians)
@@ -109,7 +109,8 @@ export function addPlanetWithOrbit(parent, data, allBodiesList) {
         mesh: planetMesh,
         system: systemGroup, // On ajoute le system pour que render() puisse le bouger
         data: data,
-        nameTagDiv: nameTagDiv
+        nameTagDiv: nameTagDiv,
+        nameTag: nameTag // CSS2DObject pour contrôler la visibilité
     };
 
     // On ajoute cet objet (Planète OU Lune) à la liste globale pour l'animation

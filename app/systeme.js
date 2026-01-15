@@ -361,6 +361,16 @@ function render() {
       let data = obj.data;
       let mesh = obj.mesh;
 
+      // Visibilité des name tags des lunes (basée sur la distance à la planète parente)
+      if (data.type === 'moon' && obj.nameTag) {
+        // Récupérer la position monde de la planète parente (system parent)
+        const parentWorldPos = new THREE.Vector3();
+        obj.system.parent.getWorldPosition(parentWorldPos);
+        const distanceToParent = camera.position.distanceTo(parentWorldPos);
+        const visibilityThreshold = 15; // distance max pour voir les lunes
+        obj.nameTag.visible = distanceToParent < visibilityThreshold;
+      }
+
       // Temps simulé global pour tout le monde
       let t = simulatedTime;
 
