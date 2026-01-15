@@ -158,7 +158,8 @@ controlsRow.appendChild(resetBtn);
 // --- LOGIQUE DU CURSEUR DE TEMPS ET BOUTON RESET ---
 
 const timeInput = sliderBox.querySelector('#timeRange');
-const timeBubble = sliderBox.querySelector('.SliderValue span');
+const timeBubbleContainer = sliderBox.querySelector('.SliderValue');
+const timeBubbleText = sliderBox.querySelector('.SliderValue span');
 
 timeInput.oninput = () => {
   let val = parseFloat(timeInput.value);
@@ -166,27 +167,31 @@ timeInput.oninput = () => {
   let speed = 0;
 
   if (val === 0) {
-    speed = 0; // Pause
+    speed = 0; 
   } else {
-    // Vitesse exponentielle
     speed = Math.pow(10, absVal - 1);
-    
-    // Direction négative pour le passé
     if (val < 0) speed = -speed;
   }
 
   // Mise à jour de la vitesse globale
   timeScale = speed;
 
-  // Calcul du pourcentage pour la bulle
+  // Calcul du pourcentage (0 à 100%)
   let percent = ((val + 10) / 20) * 100;
   
-  // Mise à jour de la position de la bulle
-  timeBubbleContainer.style.left = `calc(${percent}% + (${8 - percent * 0.16}px))`;
+  // Correction pour le positionnement de la bulle
+  let thumbCorrection = 8 - (percent * 0.16);
+  timeBubbleContainer.style.left = `calc(${percent}% + ${thumbCorrection}px)`;
+  timeBubbleContainer.style.transform = 'translateX(-50%)';
   
   // Mise à jour du texte
   timeBubbleText.textContent = val;
 };
+
+// Initialisation de la bulle de temps
+setTimeout(() => {
+    timeInput.dispatchEvent(new Event('input'));
+}, 0);
 
 resetBtn.onclick = () => {
   // Calculer le temps réel actuel par rapport à l'an 2000
