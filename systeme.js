@@ -162,19 +162,30 @@ const timeBubble = sliderBox.querySelector('.SliderValue span');
 
 timeInput.oninput = () => {
   let val = parseFloat(timeInput.value);
+  let absVal = Math.abs(val);
+  let speed = 0;
 
-  // Calcul de la vitesse
-  let speed = 10**(Math.abs(val));
-  
-  if (val < 0) speed = -speed; // Vers le passé
-  if (val === 0) speed = 0; // Pause
+  if (val === 0) {
+    speed = 0; // Pause
+  } else {
+    // Vitesse exponentielle
+    speed = Math.pow(10, absVal - 1);
+    
+    // Direction négative pour le passé
+    if (val < 0) speed = -speed;
+  }
 
-  // Mise à jour de la variable globale
+  // Mise à jour de la vitesse globale
   timeScale = speed;
 
-  // Bouger la petite bulle au-dessus
+  // Calcul du pourcentage pour la bulle
   let percent = ((val + 10) / 20) * 100;
-  timeBubble.style.left = `calc(${percent}% + (${8 - percent * 0.16}px))`;
+  
+  // Mise à jour de la position de la bulle
+  timeBubbleContainer.style.left = `calc(${percent}% + (${8 - percent * 0.16}px))`;
+  
+  // Mise à jour du texte
+  timeBubbleText.textContent = val;
 };
 
 resetBtn.onclick = () => {
