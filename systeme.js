@@ -377,7 +377,7 @@ function render() {
       let z = a * Math.sqrt(1 - e * e) * Math.sin(E);
 
       // Nouvelles positions (x, 0, z)
-      mesh.position.set(x, 0, z);
+      obj.system.position.set(x, 0, z);
     }
   }
 
