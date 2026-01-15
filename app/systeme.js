@@ -228,8 +228,8 @@ controls.rotateSpeed = 0.5;
 // Zoom adapté
 controls.enableZoom = true;
 controls.zoomSpeed = 1.2;
-controls.minDistance = 0.01;  
-controls.maxDistance = 2000;
+controls.minDistance = envData.zoom.minDistance;  
+controls.maxDistance = envData.zoom.maxDistance;
 
 
 

@@ -38,6 +38,11 @@ cameranear.value = envData.camera.near;
 const camerafar = document.getElementById('camera-max-distance');
 camerafar.value = envData.camera.far;
 
+const zoommindistance = document.getElementById('zoom-min-distance');
+zoommindistance.value = envData.zoom.minDistance;
+const zoommaxdistance = document.getElementById('zoom-max-distance');
+zoommaxdistance.value = envData.zoom.maxDistance;
+
 const nbskyparticules = document.getElementById('nb-sky-particules');
 nbskyparticules.value = envData.sky.quantity;
 const skymindistance = document.getElementById('sky-particule-min-distance');
@@ -288,6 +293,10 @@ function getEnvData() {
             fov: parseFloat(camerafov.value),
             near: parseFloat(cameranear.value),
             far: parseFloat(camerafar.value)
+        },
+        zoom: {
+            minDistance: parseFloat(zoommindistance.value),
+            maxDistance: parseFloat(zoommaxdistance.value)
         },
         sky: {
             quantity: parseInt(nbskyparticules.value),
